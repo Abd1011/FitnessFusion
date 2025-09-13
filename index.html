@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Fusion - Your Ultimate Workout Partner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827; /* Dark Gray (gray-900) */
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #94a3b8, #e2e8f0); /* Slate-400 to Slate-200 */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card-hover-effect {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .card-hover-effect:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(148, 163, 184, 0.1), 0 10px 10px -5px rgba(148, 163, 184, 0.04);
+        }
+        .btn-glow {
+            box-shadow: 0 0 5px #94a3b8, 0 0 10px #94a3b8;
+            transition: all 0.3s ease-in-out;
+        }
+        .btn-glow:hover {
+            box-shadow: 0 0 15px #94a3b8, 0 0 25px #94a3b8;
+        }
+        .nav-link.active {
+            color: #e2e8f0; /* Slate-200 */
+            font-weight: 600;
+        }
+        #wod-log-list li, #pr-list li, .daily-exercise-item {
+            background-color: #1f2937; /* Mid Gray (slate-800) */
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            border-left: 4px solid #94a3b8; /* Slate-400 */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        /* Custom style for date input */
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+        }
+        .auth-form-container {
+            max-width: 400px;
+            margin: 5rem auto;
+            background-color: #1f2937;
+            padding: 2rem;
+            border-radius: 0.75rem;
+        }
+    </style>
+</head>
+<body class="text-slate-300">
+
+    <!-- Header -->
+    <header class="bg-gray-900/80 backdrop-blur-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold">
+                <a href="#" data-page="home" class="nav-link"><span class="gradient-text">Fitness</span>Fusion</a>
+            </div>
+            <div id="desktop-menu" class="hidden md:flex space-x-6 items-center">
+                <a href="#" data-page="home" class="nav-link hover:text-slate-300 transition-colors">Home</a>
+                <a href="#" data-page="workouts" class="nav-link hover:text-slate-300 transition-colors">Workouts</a>
+                <a href="#" data-page="plan" class="nav-link hover:text-slate-300 transition-colors hidden auth-required">Workout Plan</a>
+                <a href="#" data-page="tools" class="nav-link hover:text-slate-300 transition-colors">Fitness Tools</a>
+                <a href="#" data-page="profile" class="nav-link hover:text-slate-300 transition-colors hidden auth-required">Profile</a>
+                <button id="auth-button" class="bg-slate-200 text-slate-900 font-bold py-2 px-4 rounded-lg hover:bg-slate-300 transition-colors">Join Now</button>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-slate-200 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            <a href="#" data-page="home" class="nav-link block py-2 hover:text-slate-300 transition-colors">Home</a>
+            <a href="#" data-page="workouts" class="nav-link block py-2 hover:text-slate-300 transition-colors">Workouts</a>
+            <a href="#" data-page="plan" class="nav-link block py-2 hover:text-slate-300 transition-colors hidden auth-required">Workout Plan</a>
+            <a href="#" data-page="tools" class="nav-link block py-2 hover:text-slate-300 transition-colors">Fitness Tools</a>
+            <a href="#" data-page="profile" class="nav-link block py-2 hover:text-slate-300 transition-colors hidden auth-required">Profile</a>
+            <button id="mobile-auth-button" class="block mt-2 w-full text-center bg-slate-200 text-slate-900 font-bold py-2 px-4 rounded-lg hover:bg-slate-300 transition-colors">Join Now</button>
+        </div>
+         <!-- User Info Bar -->
+        <div id="user-info-bar" class="bg-gray-800 text-center py-1 text-xs text-slate-400 hidden">
+            Logged in as: <span id="user-email" class="font-mono text-slate-400"></span>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="container mx-auto px-6 py-12 hidden">
+
+        <!-- Page 1: Home -->
+        <div id="page-home" class="page-content">
+            <section class="text-center mb-20">
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-4 leading-tight">
+                    Forge Your <span class="gradient-text">Strongest Self</span>
+                </h1>
+                <p class="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto mb-8">
+                    Stop wishing, start doing. Your journey to a healthier, stronger, and more confident you begins now. We provide the tools, you bring the will.
+                </p>
+                <a href="#" data-page-btn="workouts" class="bg-slate-200 text-slate-900 font-bold py-3 px-8 rounded-full text-lg btn-glow">
+                    Explore Workouts
+                </a>
+            </section>
+             <section class="mb-20">
+                <h2 class="text-3xl font-bold text-center mb-12">Featured Workouts</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-gray-800 rounded-xl overflow-hidden card-hover-effect">
+                        <img src="https://images.unsplash.com/photo-1542690463-524548529949?q=80&w=1770&auto=format&fit=crop" alt="Cardio workout" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Cardio Blast</h3>
+                            <p class="text-slate-400">Get your heart pumping and burn calories with high-energy workouts.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 rounded-xl overflow-hidden card-hover-effect">
+                        <img src="https://images.unsplash.com/photo-1581009137052-c0a368651429?q=80&w=1770&auto=format&fit=crop" alt="Strength training" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Strength & Power</h3>
+                            <p class="text-slate-400">Build lean muscle and increase your strength with our targeted programs.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 rounded-xl overflow-hidden card-hover-effect">
+                        <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1820&auto=format&fit=crop" alt="Yoga and flexibility" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Flex & Flow</h3>
+                            <p class="text-slate-400">Improve your flexibility, balance, and mindfulness with guided sessions.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Page 2: Workouts -->
+        <div id="page-workouts" class="page-content hidden">
+            <section id="workouts">
+                <h2 class="text-3xl font-bold text-center mb-12">Choose Your Challenge</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-gray-800 rounded-xl overflow-hidden card-hover-effect">
+                        <img src="https://images.unsplash.com/photo-1542690463-524548529949?q=80&w=1770&auto=format&fit=crop" alt="Cardio workout" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Cardio Blast</h3>
+                            <p class="text-slate-400">Get your heart pumping and burn calories with high-energy workouts designed to boost your endurance.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 rounded-xl overflow-hidden card-hover-effect">
+                        <img src="https://images.unsplash.com/photo-1581009137052-c0a368651429?q=80&w=1770&auto=format&fit=crop" alt="Strength training" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Strength & Power</h3>
+                            <p class="text-slate-400">Build lean muscle, increase your strength, and sculpt your body with our targeted weight training programs.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 rounded-xl overflow-hidden card-hover-effect">
+                        <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1820&auto=format&fit=crop" alt="Yoga and flexibility" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Flex & Flow</h3>
+                            <p class="text-slate-400">Improve your flexibility, balance, and mindfulness with guided yoga and stretching sessions.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 rounded-xl overflow-hidden card-hover-effect">
+                        <img src="https://images.unsplash.com/photo-1517836357463-d2dfeac3438?q=80&w=1770&auto=format&fit=crop" alt="HIIT" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">HIIT Intensity</h3>
+                            <p class="text-slate-400">High-Intensity Interval Training to maximize fat loss and improve athletic performance in short, intense bursts.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 rounded-xl overflow-hidden card-hover-effect">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1770&auto=format&fit=crop" alt="Bodyweight exercises" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Bodyweight Mastery</h3>
+                            <p class="text-slate-400">Use your own body as the ultimate workout tool. No equipment needed, perfect for home workouts.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 rounded-xl overflow-hidden card-hover-effect">
+                        <img src="https://images.unsplash.com/photo-1552196563-55cd4e45efb3?q=80&w=1926&auto=format&fit=crop" alt="Core workout" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Core Crusher</h3>
+                            <p class="text-slate-400">Forge a rock-solid core with exercises designed to build stability, strength, and six-pack abs.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Page 3: Workout Plan -->
+        <div id="page-plan" class="page-content hidden">
+            <h2 class="text-3xl font-bold text-center mb-12">Your Workout Plan</h2>
+            
+            <section class="mb-12 bg-gray-800 rounded-xl p-8 max-w-2xl mx-auto card-hover-effect">
+                <h3 class="text-2xl font-bold mb-6 text-center">Add a Daily Exercise</h3>
+                <form id="daily-exercise-form" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="daily-exercise-name" class="block mb-2 font-medium text-slate-300">Exercise Name</label>
+                            <input type="text" id="daily-exercise-name" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:ring-slate-500 focus:border-slate-500" placeholder="e.g., Push-ups" required>
+                        </div>
+                        <div>
+                            <label for="exercise-date" class="block mb-2 font-medium text-slate-300">Date</label>
+                            <input type="date" id="exercise-date" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:ring-slate-500 focus:border-slate-500" required>
+                            <div class="flex space-x-2 mt-2">
+                                <button type="button" id="set-date-today" class="text-xs bg-gray-600 hover:bg-gray-500 text-white py-1 px-3 rounded-lg w-full">Today</button>
+                                <button type="button" id="set-date-tomorrow" class="text-xs bg-gray-600 hover:bg-gray-500 text-white py-1 px-3 rounded-lg w-full">Tomorrow</button>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="daily-exercise-sets" class="block mb-2 font-medium text-slate-300">Sets</label>
+                            <input type="number" id="daily-exercise-sets" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:ring-slate-500 focus:border-slate-500" placeholder="e.g., 3" required>
+                        </div>
+                        <div>
+                            <label for="daily-exercise-reps" class="block mb-2 font-medium text-slate-300">Reps</label>
+                            <input type="number" id="daily-exercise-reps" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:ring-slate-500 focus:border-slate-500" placeholder="e.g., 12" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-slate-200 text-slate-900 font-bold py-3 px-8 rounded-lg text-lg hover:bg-slate-300 transition-colors">Add to Plan</button>
+                </form>
+            </section>
+            
+            <section id="daily-plan-list-section">
+                <h3 class="text-2xl font-bold text-center mb-6">Upcoming Exercises</h3>
+                <div id="daily-plan-list" class="space-y-6 max-w-3xl mx-auto">
+                    <p class="text-center text-slate-500">Your workout plan is empty. Add an exercise to get started!</p>
+                </div>
+            </section>
+        </div>
+
+
+        <!-- Page 4: Tools -->
+        <div id="page-tools" class="page-content hidden">
+            <h2 class="text-3xl font-bold text-center mb-12">Fitness Tools</h2>
+            <section id="wod" class="mb-20 bg-gray-800 rounded-xl p-8 md:p-12">
+                <div class="text-center">
+                    <h3 class="text-3xl font-bold mb-2">Workout of the Day</h3>
+                    <p class="gradient-text font-semibold text-lg mb-6">"The Spartan 300"</p>
+                    <div class="max-w-2xl mx-auto text-slate-400 space-y-2 mb-8">
+                        <p>A full-body challenge to test your limits. Complete all reps for time.</p>
+                        <ul class="font-mono text-lg text-slate-200 list-none space-y-1">
+                            <li>- 50 Push-ups -</li>
+                            <li>- 50 Burpees -</li>
+                            <li>- 50 Kettlebell Swings -</li>
+                            <li>- 50 Box Jumps -</li>
+                            <li>- 50 Crunches -</li>
+                            <li>- 50 Pull-ups (or Bodyweight Rows) -</li>
+                        </ul>
+                    </div>
+                    <button id="log-wod" class="bg-slate-200 text-slate-900 font-bold py-3 px-6 rounded-lg hover:bg-slate-300 transition-colors disabled:bg-gray-600 disabled:cursor-not-allowed">
+                        Log Completion
+                    </button>
+                </div>
+                <div id="wod-log" class="mt-12 max-w-3xl mx-auto">
+                    <h4 class="text-2xl font-bold text-center mb-6">Completion Log</h4>
+                    <ul id="wod-log-list" class="space-y-4">
+                         <li class="text-center text-slate-500 !bg-transparent !border-none">Loading log...</li>
+                    </ul>
+                </div>
+            </section>
+            <section id="bmi" class="mb-20">
+                <h3 class="text-3xl font-bold text-center mb-12">Calculate Your BMI</h3>
+                <div class="bg-gray-800 rounded-xl p-8 max-w-2xl mx-auto">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label for="height" class="block mb-2 font-medium text-slate-300">Height (cm)</label>
+                            <input type="number" id="height" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:ring-slate-500 focus:border-slate-500" placeholder="e.g., 175">
+                        </div>
+                        <div>
+                            <label for="weight" class="block mb-2 font-medium text-slate-300">Weight (kg)</label>
+                            <input type="number" id="weight" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:ring-slate-500 focus:border-slate-500" placeholder="e.g., 70">
+                        </div>
+                    </div>
+                    <button id="calculate-bmi" class="w-full bg-slate-200 text-slate-900 font-bold py-3 px-8 rounded-lg text-lg hover:bg-slate-300 transition-colors">
+                        Calculate
+                    </button>
+                    <div id="bmi-result" class="mt-6 text-center text-xl font-bold hidden">
+                        <p>Your BMI is: <span id="bmi-value" class="gradient-text"></span></p>
+                        <p>Category: <span id="bmi-category" class="text-white"></span></p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Page 5: Profile / Personal Records -->
+        <div id="page-profile" class="page-content hidden">
+            <h2 class="text-3xl font-bold text-center mb-12">Personal Records</h2>
+
+            <section id="add-pr" class="mb-12 bg-gray-800 rounded-xl p-8 max-w-2xl mx-auto card-hover-effect">
+                <h3 class="text-2xl font-bold mb-6 text-center">Log a New PR</h3>
+                <form id="pr-form" class="space-y-4">
+                    <div>
+                        <label for="exercise-name" class="block mb-2 font-medium text-slate-300">Exercise Name</label>
+                        <input type="text" id="exercise-name" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:ring-slate-500 focus:border-slate-500" placeholder="e.g., Bench Press" required>
+                    </div>
+                    <div>
+                        <label for="record-value" class="block mb-2 font-medium text-slate-300">Record (Weight, Reps, Time, etc.)</label>
+                        <input type="text" id="record-value" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:ring-slate-500 focus:border-slate-500" placeholder="e.g., 100 kg for 1 rep" required>
+                    </div>
+                    <button type="submit" id="add-pr-btn" class="w-full bg-slate-200 text-slate-900 font-bold py-3 px-8 rounded-lg text-lg hover:bg-slate-300 transition-colors">Add Record</button>
+                </form>
+            </section>
+
+            <section id="pr-list-section">
+                <h3 class="text-2xl font-bold text-center mb-6">Your Records</h3>
+                <ul id="pr-list" class="space-y-4 max-w-3xl mx-auto">
+                    <li class="text-center text-slate-500 !bg-transparent !border-none">Loading your records...</li>
+                </ul>
+            </section>
+        </div>
+
+    </main>
+
+    <!-- Authentication Page -->
+    <div id="page-auth" class="container mx-auto px-6 py-12">
+        <!-- Login Form -->
+        <div id="login-container" class="auth-form-container">
+            <h2 class="text-3xl font-bold text-center mb-6 text-white">Login</h2>
+            <form id="login-form">
+                <div class="mb-4">
+                    <label for="login-email" class="block mb-2 font-medium text-slate-300">Email</label>
+                    <input type="email" id="login-email" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:ring-slate-500 focus:border-slate-500" required>
+                </div>
+                <div class="mb-6">
+                    <label for="login-password" class="block mb-2 font-medium text-slate-300">Password</label>
+                    <input type="password" id="login-password" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:ring-slate-500 focus:border-slate-500" required>
+                </div>
+                <button type="submit" class="w-full bg-slate-200 text-slate-900 font-bold py-3 rounded-lg hover:bg-slate-300 transition-colors">Login</button>
+            </form>
+            <p id="login-error" class="text-red-400 text-center mt-4"></p>
+            <p class="text-center mt-4 text-slate-400">
+                Don't have an account? <a href="#" id="show-signup" class="font-medium text-slate-300 hover:underline">Sign Up</a>
+            </p>
+        </div>
+
+        <!-- Signup Form -->
+        <div id="signup-container" class="auth-form-container hidden">
+            <h2 class="text-3xl font-bold text-center mb-6 text-white">Sign Up</h2>
+            <form id="signup-form">
+                <div class="mb-4">
+                    <label for="signup-email" class="block mb-2 font-medium text-slate-300">Email</label>
+                    <input type="email" id="signup-email" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:ring-slate-500 focus:border-slate-500" required>
+                </div>
+                <div class="mb-6">
+                    <label for="signup-password" class="block mb-2 font-medium text-slate-300">Password</label>
+                    <input type="password" id="signup-password" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:ring-slate-500 focus:border-slate-500" required>
+                </div>
+                <button type="submit" class="w-full bg-slate-200 text-slate-900 font-bold py-3 rounded-lg hover:bg-slate-300 transition-colors">Create Account</button>
+            </form>
+            <p id="signup-error" class="text-red-400 text-center mt-4"></p>
+            <p class="text-center mt-4 text-slate-400">
+                Already have an account? <a href="#" id="show-login" class="font-medium text-slate-300 hover:underline">Login</a>
+            </p>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="bg-gray-900">
+        <div class="container mx-auto px-6 py-8 text-center text-slate-400">
+            <p>&copy; 2025 Fitness Fusion. All Rights Reserved.</p>
+            <p class="mt-2">Made by Abdullah with ❤️</p>
+        </div>
+    </footer>
+    
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, Timestamp, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        
+        // ------------------------------------------------------------------
+        // IMPORTANT: PASTE YOUR FIREBASE CONFIGURATION OBJECT HERE
+        // You can get this from your Firebase project settings.
+        // ------------------------------------------------------------------
+        const firebaseConfig = {
+          apiKey: "YOUR_API_KEY",
+          authDomain: "YOUR_AUTH_DOMAIN",
+          projectId: "YOUR_PROJECT_ID",
+          storageBucket: "YOUR_STORAGE_BUCKET",
+          messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+          appId: "YOUR_APP_ID"
+        };
+        // ------------------------------------------------------------------
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = firebaseConfig.appId; // Use appId from your config
+
+        // --- UI Elements ---
+        const mainContent = document.getElementById('main-content');
+        const authPage = document.getElementById('page-auth');
+        const loginContainer = document.getElementById('login-container');
+        const signupContainer = document.getElementById('signup-container');
+        const userInfoBar = document.getElementById('user-info-bar');
+        const userEmailSpan = document.getElementById('user-email');
+        const authButton = document.getElementById('auth-button');
+        const mobileAuthButton = document.getElementById('mobile-auth-button');
+        const authRequiredLinks = document.querySelectorAll('.auth-required');
+
+        let dbListeners = []; // To hold our unsubscribe functions
+
+        // --- Auth State Logic ---
+        onAuthStateChanged(auth, user => {
+            // Clear any existing database listeners
+            dbListeners.forEach(unsubscribe => unsubscribe());
+            dbListeners = [];
+
+            if (user) {
+                // User is signed in
+                mainContent.classList.remove('hidden');
+                authPage.classList.add('hidden');
+                userInfoBar.classList.remove('hidden');
+                userEmailSpan.textContent = user.email;
+                
+                authButton.textContent = 'Log Out';
+                mobileAuthButton.textContent = 'Log Out';
+
+                authRequiredLinks.forEach(link => link.classList.remove('hidden'));
+
+                // Setup database listeners for the logged-in user
+                setupDbListeners(user.uid);
+                showPage('home');
+
+            } else {
+                // User is signed out
+                mainContent.classList.add('hidden');
+                authPage.classList.remove('hidden');
+                userInfoBar.classList.add('hidden');
+                userEmailSpan.textContent = '';
+                
+                authButton.textContent = 'Join Now';
+                mobileAuthButton.textContent = 'Join Now';
+
+                authRequiredLinks.forEach(link => link.classList.add('hidden'));
+                showPage('auth'); // or hide all pages
+            }
+        });
+
+        // --- Database Listeners Function ---
+        function setupDbListeners(userId) {
+            // WOD Logic (Public)
+            const wodLogList = document.getElementById('wod-log-list');
+            const wodCollectionPath = `/artifacts/${appId}/public/data/wod_completions`;
+            const wodCollectionRef = collection(db, wodCollectionPath);
+            const unsubWod = onSnapshot(query(wodCollectionRef), (snapshot) => {
+                wodLogList.innerHTML = snapshot.empty ? '<li class="text-center text-slate-500 !bg-transparent !border-none">Be the first to complete the workout!</li>' : '';
+                if (!snapshot.empty) {
+                    const completions = snapshot.docs.map(doc => doc.data());
+                    completions.sort((a, b) => b.completedAt.seconds - a.completedAt.seconds);
+                    completions.forEach(data => {
+                        const li = document.createElement('li');
+                        const userHandle = data.userEmail ? data.userEmail.split('@')[0] : 'Anonymous';
+                        li.innerHTML = `<span><span class="font-bold text-white">${userHandle}</span> completed</span> <span class="text-slate-400">${data.completedAt.toDate().toLocaleDateString()}</span>`;
+                        wodLogList.appendChild(li);
+                    });
+                }
+            }, console.error);
+            dbListeners.push(unsubWod);
+
+            document.getElementById('log-wod').onclick = async (e) => {
+                if (!auth.currentUser) return;
+                e.target.disabled = true;
+                e.target.textContent = 'Logging...';
+                try {
+                    await addDoc(wodCollectionRef, { userId, userEmail: auth.currentUser.email, completedAt: Timestamp.now(), workout: "The Spartan 300" });
+                    e.target.textContent = 'Completed!';
+                } catch (err) {
+                    console.error("Error adding document: ", err);
+                    e.target.textContent = 'Log Completion';
+                    e.target.disabled = false;
+                }
+            };
+            
+            // PR Logic (Private)
+            const prForm = document.getElementById('pr-form');
+            const prList = document.getElementById('pr-list');
+            const prCollectionPath = `/artifacts/${appId}/users/${userId}/personal_records`;
+            const prCollectionRef = collection(db, prCollectionPath);
+            const unsubPr = onSnapshot(query(prCollectionRef), (snapshot) => {
+                prList.innerHTML = '';
+                if (snapshot.empty) {
+                    prList.innerHTML = '<li class="text-center text-slate-500 !bg-transparent !border-none">Log your first personal record above!</li>';
+                    return;
+                }
+                const records = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                records.sort((a, b) => b.createdAt.seconds - a.createdAt.seconds);
+                records.forEach(data => {
+                    const li = document.createElement('li');
+                    const date = data.createdAt.toDate().toLocaleDateString();
+                    li.innerHTML = `
+                        <div>
+                            <p class="font-bold text-lg text-white">${data.exerciseName}</p>
+                            <p class="text-slate-400">${data.recordValue}</p>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-sm text-slate-500">${date}</span>
+                            <button data-id="${data.id}" class="delete-pr-btn text-rose-500 hover:text-rose-400 text-2xl font-bold">&times;</button>
+                        </div>
+                    `;
+                    prList.appendChild(li);
+                });
+            }, console.error);
+            dbListeners.push(unsubPr);
+
+            prForm.onsubmit = async (e) => {
+                e.preventDefault();
+                const exerciseName = document.getElementById('exercise-name').value.trim();
+                const recordValue = document.getElementById('record-value').value.trim();
+                if (!exerciseName || !recordValue) return;
+                try {
+                    await addDoc(prCollectionRef, { exerciseName, recordValue, createdAt: Timestamp.now() });
+                    prForm.reset();
+                } catch (err) { console.error("Error adding PR: ", err); }
+            };
+
+            prList.onclick = async (e) => {
+                if (e.target && e.target.classList.contains('delete-pr-btn')) {
+                    const docId = e.target.dataset.id;
+                    if (docId) {
+                        try { await deleteDoc(doc(db, prCollectionPath, docId)); } 
+                        catch (err) { console.error("Error deleting PR: ", err); }
+                    }
+                }
+            };
+
+            // Daily Plan Logic (Private)
+            const dailyExerciseForm = document.getElementById('daily-exercise-form');
+            const dailyPlanList = document.getElementById('daily-plan-list');
+            const dailyPlanCollectionPath = `/artifacts/${appId}/users/${userId}/daily_plan`;
+            const dailyPlanCollectionRef = collection(db, dailyPlanCollectionPath);
+            const unsubPlan = onSnapshot(query(dailyPlanCollectionRef), (snapshot) => {
+                dailyPlanList.innerHTML = '';
+                if (snapshot.empty) {
+                    dailyPlanList.innerHTML = '<p class="text-center text-slate-500">Your workout plan is empty. Add an exercise to get started!</p>';
+                    return;
+                }
+                const exercises = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                
+                const groupedByDate = exercises.reduce((acc, exercise) => {
+                    const date = exercise.exerciseDate;
+                    if (!acc[date]) acc[date] = [];
+                    acc[date].push(exercise);
+                    return acc;
+                }, {});
+
+                const sortedDates = Object.keys(groupedByDate).sort();
+
+                sortedDates.forEach(date => {
+                    const dateGroup = document.createElement('div');
+                    const formattedDate = new Date(date + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                    dateGroup.innerHTML = `<h4 class="text-xl font-bold mb-3 text-slate-400">${formattedDate}</h4>`;
+                    const exerciseList = document.createElement('ul');
+                    exerciseList.className = 'space-y-3';
+                    groupedByDate[date].forEach(ex => {
+                        const li = document.createElement('li');
+                        li.className = 'daily-exercise-item';
+                        li.innerHTML = `
+                            <div>
+                                <p class="font-semibold text-white">${ex.exerciseName}</p>
+                                <p class="text-sm text-slate-400">${ex.sets} sets x ${ex.reps} reps</p>
+                            </div>
+                            <button data-id="${ex.id}" class="delete-daily-exercise-btn text-rose-500 hover:text-rose-400 text-2xl font-bold">&times;</button>
+                        `;
+                        exerciseList.appendChild(li);
+                    });
+                    dateGroup.appendChild(exerciseList);
+                    dailyPlanList.appendChild(dateGroup);
+                });
+            }, console.error);
+            dbListeners.push(unsubPlan);
+
+            dailyExerciseForm.onsubmit = async (e) => {
+                e.preventDefault();
+                const exerciseName = document.getElementById('daily-exercise-name').value.trim();
+                const exerciseDate = document.getElementById('exercise-date').value;
+                const sets = document.getElementById('daily-exercise-sets').value.trim();
+                const reps = document.getElementById('daily-exercise-reps').value.trim();
+                if (!exerciseName || !exerciseDate || !sets || !reps) return;
+                try {
+                    await addDoc(dailyPlanCollectionRef, { exerciseName, exerciseDate, sets, reps, createdAt: Timestamp.now() });
+                    dailyExerciseForm.reset();
+                } catch (err) { console.error("Error adding daily exercise: ", err); }
+            };
+
+            dailyPlanList.onclick = async (e) => {
+                if (e.target && e.target.classList.contains('delete-daily-exercise-btn')) {
+                    const docId = e.target.dataset.id;
+                    if (docId) {
+                        try { await deleteDoc(doc(db, dailyPlanCollectionPath, docId)); } 
+                        catch (err) { console.error("Error deleting daily exercise: ", err); }
+                    }
+                }
+            };
+        }
+
+
+        // --- Auth Form Handling ---
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        const loginError = document.getElementById('login-error');
+        const signupError = document.getElementById('signup-error');
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            loginError.textContent = '';
+            const email = loginForm['login-email'].value;
+            const password = loginForm['login-password'].value;
+            signInWithEmailAndPassword(auth, email, password)
+                .catch(err => loginError.textContent = err.message);
+        });
+
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            signupError.textContent = '';
+            const email = signupForm['signup-email'].value;
+            const password = signupForm['signup-password'].value;
+            createUserWithEmailAndPassword(auth, email, password)
+                .catch(err => signupError.textContent = err.message);
+        });
+
+        // --- Logout ---
+        const handleLogout = () => signOut(auth);
+        authButton.addEventListener('click', () => auth.currentUser ? handleLogout() : showPage('auth'));
+        mobileAuthButton.addEventListener('click', () => auth.currentUser ? handleLogout() : showPage('auth'));
+        
+        // --- Auth Form Toggling ---
+        document.getElementById('show-signup').addEventListener('click', (e) => {
+            e.preventDefault();
+            loginContainer.classList.add('hidden');
+            signupContainer.classList.remove('hidden');
+        });
+        document.getElementById('show-login').addEventListener('click', (e) => {
+            e.preventDefault();
+            signupContainer.classList.add('hidden');
+            loginContainer.classList.remove('hidden');
+        });
+
+
+        // --- Page Navigation & UI Logic ---
+        const pages = document.querySelectorAll('.page-content');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        function showPage(pageId) {
+            if (pageId === 'auth') {
+                mainContent.classList.add('hidden');
+                authPage.classList.remove('hidden');
+                return;
+            }
+            
+            if (auth.currentUser) {
+                mainContent.classList.remove('hidden');
+                authPage.classList.add('hidden');
+                pages.forEach(page => page.classList.add('hidden'));
+                document.getElementById(`page-${pageId}`)?.classList.remove('hidden');
+                navLinks.forEach(link => {
+                    link.classList.toggle('active', link.dataset.page === pageId);
+                });
+                window.scrollTo(0, 0);
+            } else {
+                // If not logged in and trying to access a page, show auth page
+                showPage('auth');
+            }
+        }
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showPage(link.dataset.page);
+                document.getElementById('mobile-menu').classList.toggle('hidden');
+            });
+        });
+
+        document.querySelector('[data-page-btn="workouts"]').addEventListener('click', (e) => {e.preventDefault(); showPage('workouts');});
+
+        // Initial setup for non-auth functionality (date pickers, BMI calc, etc.)
+         const formatDate = (date) => {
+            const d = new Date(date);
+            const year = d.getFullYear();
+            const month = (`0${d.getMonth() + 1}`).slice(-2);
+            const day = (`0${d.getDate()}`).slice(-2);
+            return `${year}-${month}-${day}`;
+        }
+        document.getElementById('set-date-today').addEventListener('click', () => {
+            document.getElementById('exercise-date').value = formatDate(new Date());
+        });
+        document.getElementById('set-date-tomorrow').addEventListener('click', () => {
+             const tomorrow = new Date();
+             tomorrow.setDate(tomorrow.getDate() + 1);
+             document.getElementById('exercise-date').value = formatDate(tomorrow);
+        });
+        document.getElementById('calculate-bmi').addEventListener('click', () => {
+            const height = parseFloat(document.getElementById('height').value);
+            const weight = parseFloat(document.getElementById('weight').value);
+            const resultDiv = document.getElementById('bmi-result');
+            if (isNaN(height) || isNaN(weight) || height <= 0 || weight <= 0) {
+                 resultDiv.innerHTML = `<p class="text-rose-400">Please enter a valid height and weight.</p>`;
+                 resultDiv.classList.remove('hidden');
+                 return;
+            }
+            resultDiv.innerHTML = `<p>Your BMI is: <span id="bmi-value" class="gradient-text"></span></p><p>Category: <span id="bmi-category" class="text-white"></span></p>`;
+            const bmiValueSpan = document.getElementById('bmi-value');
+            const bmiCategorySpan = document.getElementById('bmi-category');
+            const bmi = (weight / ((height / 100) ** 2)).toFixed(1);
+            bmiValueSpan.textContent = bmi;
+            let category = '', color = '';
+            if (bmi < 18.5) { category = 'Underweight'; color = 'text-blue-400'; } 
+            else if (bmi < 24.9) { category = 'Normal weight'; color = 'text-green-400'; } 
+            else if (bmi < 29.9) { category = 'Overweight'; color = 'text-yellow-400'; } 
+            else { category = 'Obesity'; color = 'text-red-400'; }
+            bmiCategorySpan.textContent = category;
+            bmiCategorySpan.className = color;
+            resultDiv.classList.remove('hidden');
+        });
+        document.getElementById('mobile-menu-button').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>
+

@@ -53,6 +53,12 @@
 </head>
 <body class="text-slate-300">
 
+    <div id="home-background" class="fixed inset-0 z-[-1] bg-cover bg-center hidden transition-opacity duration-500" style="background-image: linear-gradient(rgba(17, 24, 39, 0.9), rgba(17, 24, 39, 0.9)), url('https://images.unsplash.com/photo-1549060279-7e168fcee0c2?q=80&w=2070&auto=format&fit=crop');"></div>
+    <div id="workouts-background" class="fixed inset-0 z-[-1] bg-cover bg-center hidden transition-opacity duration-500" style="background-image: linear-gradient(rgba(17, 24, 39, 0.9), rgba(17, 24, 39, 0.9)), url('https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=2070&auto=format&fit=crop');"></div>
+    <div id="plan-background" class="fixed inset-0 z-[-1] bg-cover bg-center hidden transition-opacity duration-500" style="background-image: linear-gradient(rgba(17, 24, 39, 0.9), rgba(17, 24, 39, 0.9)), url('https://images.unsplash.com/photo-1574680178336-d2930ae7cd3c?q=80&w=2070&auto=format&fit=crop');"></div>
+    <div id="tools-background" class="fixed inset-0 z-[-1] bg-cover bg-center hidden transition-opacity duration-500" style="background-image: linear-gradient(rgba(17, 24, 39, 0.9), rgba(17, 24, 39, 0.9)), url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2070&auto=format&fit=crop');"></div>
+
+
     <!-- Header -->
     <header class="bg-gray-900/80 backdrop-blur-sm sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
@@ -221,7 +227,7 @@
         <div id="page-plan" class="page-content hidden">
             <h2 class="text-3xl font-bold text-center mb-12">Your Workout Plan</h2>
             
-            <section class="mb-12 bg-gray-800 rounded-xl p-8 max-w-2xl mx-auto card-hover-effect">
+            <section class="mb-12 bg-gray-800/80 backdrop-blur-sm rounded-xl p-8 max-w-2xl mx-auto card-hover-effect">
                 <h3 class="text-2xl font-bold mb-6 text-center">Add a Daily Exercise</h3>
                 <form id="daily-exercise-form" class="space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -262,7 +268,7 @@
         <!-- Page 4: Tools -->
         <div id="page-tools" class="page-content hidden">
             <h2 class="text-3xl font-bold text-center mb-12">Fitness Tools</h2>
-            <section id="wod" class="mb-20 bg-gray-800 rounded-xl p-8 md:p-12">
+            <section id="wod" class="mb-20 bg-gray-800/80 backdrop-blur-sm rounded-xl p-8 md:p-12">
                 <div class="text-center">
                     <h3 class="text-3xl font-bold mb-2">Workout of the Day</h3>
                     <p class="gradient-text font-semibold text-lg mb-6">"The Spartan 300"</p>
@@ -290,7 +296,7 @@
             </section>
             <section id="bmi" class="mb-20">
                 <h3 class="text-3xl font-bold text-center mb-12">Calculate Your BMI</h3>
-                <div class="bg-gray-800 rounded-xl p-8 max-w-2xl mx-auto">
+                <div class="bg-gray-800/80 backdrop-blur-sm rounded-xl p-8 max-w-2xl mx-auto">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div>
                             <label for="height" class="block mb-2 font-medium text-slate-300">Height (cm)</label>
@@ -917,6 +923,22 @@ const firebaseConfig = {
         const navLinks = document.querySelectorAll('.nav-link');
 
         function showPage(pageId) {
+            const homeBg = document.getElementById('home-background');
+            const workoutsBg = document.getElementById('workouts-background');
+            const planBg = document.getElementById('plan-background');
+            const toolsBg = document.getElementById('tools-background');
+            const workoutPages = ['workouts', 'cardio-exercises', 'strength-exercises', 'flex-exercises', 'hiit-exercises', 'bodyweight-exercises', 'core-exercises'];
+
+            // A simplified way to toggle all backgrounds
+            const backgrounds = {
+                home: homeBg,
+                workouts: workoutsBg,
+                plan: planBg,
+                tools: toolsBg
+            };
+
+            Object.values(backgrounds).forEach(bg => bg.classList.add('hidden'));
+
             if (pageId === 'auth') {
                 mainContent.classList.add('hidden');
                 authPage.classList.remove('hidden');
@@ -924,6 +946,12 @@ const firebaseConfig = {
             }
             
             if (auth.currentUser) {
+                // Show the correct background
+                if (pageId === 'home') backgrounds.home.classList.remove('hidden');
+                else if (workoutPages.includes(pageId)) backgrounds.workouts.classList.remove('hidden');
+                else if (pageId === 'plan') backgrounds.plan.classList.remove('hidden');
+                else if (pageId === 'tools') backgrounds.tools.classList.remove('hidden');
+
                 mainContent.classList.remove('hidden');
                 authPage.classList.add('hidden');
                 pages.forEach(page => page.classList.add('hidden'));

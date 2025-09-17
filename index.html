@@ -49,13 +49,6 @@
         input[type="date"]::-webkit-calendar-picker-indicator {
             filter: invert(1);
         }
-        .auth-form-container {
-            max-width: 400px;
-            margin: 5rem auto;
-            background-color: #1f2937;
-            padding: 2rem;
-            border-radius: 0.75rem;
-        }
     </style>
 </head>
 <body class="text-slate-300">
@@ -109,30 +102,66 @@
                     Explore Workouts
                 </a>
             </section>
-             <section class="mb-20">
-                <h2 class="text-3xl font-bold text-center mb-12">Featured Workouts</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="bg-gray-800 rounded-xl overflow-hidden card-hover-effect">
-                        <img src="https://www.puregym.com/media/3f1pvvjw/the-best-gym-cardio-workouts_blogheader-notitle.jpg?quality=80&w=1770&auto=format&fit=crop" alt="Cardio workout" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Cardio Blast</h3>
-                            <p class="text-slate-400">Get your heart pumping and burn calories with high-energy workouts.</p>
-                        </div>
+            
+            <section class="my-20 text-center">
+                <blockquote class="text-2xl md:text-3xl italic text-slate-300 max-w-4xl mx-auto">
+                    "The only bad workout is the one that didn't happen."
+                </blockquote>
+                <cite class="block text-slate-400 mt-4">- Anonymous</cite>
+            </section>
+
+            <section class="my-20">
+                <h2 class="text-3xl font-bold text-center mb-12">Benefits of Regular Exercise</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="bg-gray-800 p-6 rounded-xl text-center card-hover-effect">
+                        <h3 class="font-bold text-xl mb-2 text-white">Boosts Energy</h3>
+                        <p class="text-slate-400">Improves muscle strength and boosts your endurance, giving you more energy for daily activities.</p>
                     </div>
-                    <div class="bg-gray-800 rounded-xl overflow-hidden card-hover-effect">
-                        <img src="https://imgs.search.brave.com/DnqMHiEqirMlrarXuFUq0iz57rcx-OkuewHNAuwLdPg/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTQ0/Nzk0OTExMi9waG90/by9tdXNjdWxhci1z/aGlydGxlc3MtbWFs/ZS1ib2R5YnVpbGRl/ci1saWZ0aW5nLWEt/YmFyYmVsbC1hdC10/aGUtZ3ltLmpwZz9z/PTYxMng2MTImdz0w/Jms9MjAmYz1fZkhG/enRHN0FWcDV6ZDJC/WHFLQUF0NF9ZS3hy/VVlBVVpQaUhXLVRv/TVVzPQ&w=1770&auto=format&fit=crop" alt="Strength training" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Strength & Power</h3>
-                            <p class="text-slate-400">Build lean muscle and increase your strength with our targeted programs.</p>
-                        </div>
+                    <div class="bg-gray-800 p-6 rounded-xl text-center card-hover-effect">
+                        <h3 class="font-bold text-xl mb-2 text-white">Improves Mood</h3>
+                        <p class="text-slate-400">Stimulates various brain chemicals that may leave you feeling happier and more relaxed.</p>
                     </div>
-                    <div class="bg-gray-800 rounded-xl overflow-hidden card-hover-effect">
-                        <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1820&auto=format&fit=crop" alt="Yoga and flexibility" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Flex & Flow</h3>
-                            <p class="text-slate-400">Improve your flexibility, balance, and mindfulness with guided sessions.</p>
-                        </div>
+                    <div class="bg-gray-800 p-6 rounded-xl text-center card-hover-effect">
+                        <h3 class="font-bold text-xl mb-2 text-white">Better Sleep</h3>
+                        <p class="text-slate-400">Regular physical activity can help you fall asleep faster and deepen your sleep.</p>
                     </div>
+                    <div class="bg-gray-800 p-6 rounded-xl text-center card-hover-effect">
+                        <h3 class="font-bold text-xl mb-2 text-white">Stronger Body</h3>
+                        <p class="text-slate-400">Helps build and maintain strong bones, muscles, and joints, reducing risk of injury.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="my-20">
+                <h2 class="text-3xl font-bold text-center mb-12">Fuel Your Body</h2>
+                <div class="max-w-4xl mx-auto bg-gray-800 rounded-xl overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-900/50">
+                            <tr class="border-b border-gray-700">
+                                <th class="p-4 text-lg font-semibold text-slate-300">Nutrient</th>
+                                <th class="p-4 text-lg font-semibold text-slate-300">Vegetarian Sources</th>
+                                <th class="p-4 text-lg font-semibold text-slate-300">Non-Vegetarian Sources</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-700">
+                            <tr>
+                                <td class="p-4 font-bold text-white align-top">Protein</td>
+                                <td class="p-4 text-slate-300">Lentils, Chickpeas, Tofu, Paneer, Quinoa, Greek Yogurt, Nuts</td>
+                                <td class="p-4 text-slate-300">Chicken Breast, Salmon, Tuna, Eggs, Lean Beef, Turkey</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-bold text-white align-top">Healthy Carbs</td>
+                                <td class="p-4 text-slate-300">Oats, Brown Rice, Sweet Potatoes, Whole Grains, Fruits, Vegetables</td>
+                                <td class="p-4 text-slate-300">(Sources are generally plant-based and similar for both diets)</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-bold text-white align-top">Healthy Fats</td>
+                                <td class="p-4 text-slate-300">Avocado, Nuts (Almonds, Walnuts), Seeds (Chia, Flax), Olive Oil</td>
+                                <td class="p-4 text-slate-300">Fatty Fish (Salmon, Mackerel), Egg Yolks, Avocado</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                     <div class="p-4 text-sm text-slate-500 text-center border-t border-gray-700">This is a general guide. Consult a nutritionist for a personalized diet plan.</div>
                 </div>
             </section>
         </div>
@@ -142,42 +171,42 @@
             <section id="workouts">
                 <h2 class="text-3xl font-bold text-center mb-12">Choose Your Challenge</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="bg-gray-800 rounded-xl overflow-hidden card-hover-effect">
-                        <img src="https://images.unsplash.com/photo-1542690463-524548529949?q=80&w=1770&auto=format&fit=crop" alt="Cardio workout" class="w-full h-48 object-cover">
+                    <div class="bg-gray-800 rounded-xl overflow-hidden card-hover-effect cursor-pointer" data-page-btn="cardio-exercises">
+                        <img src="https://images.unsplash.com/photo-1540496905036-5937c10647cc?q=80&w=1770&auto=format&fit=crop" alt="Cardio workout" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <h3 class="text-2xl font-bold mb-2 text-slate-300">Cardio Blast</h3>
                             <p class="text-slate-400">Get your heart pumping and burn calories with high-energy workouts designed to boost your endurance.</p>
                         </div>
                     </div>
-                    <div class="bg-gray-800 rounded-xl overflow-hidden card-hover-effect">
-                        <img src="https://images.unsplash.com/photo-1581009137052-c0a368651429?q=80&w=1770&auto=format&fit=crop" alt="Strength training" class="w-full h-48 object-cover">
+                    <div class="bg-gray-800 rounded-xl overflow-hidden card-hover-effect cursor-pointer" data-page-btn="strength-exercises">
+                        <img src="https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=1769&auto=format&fit=crop" alt="Strength training" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <h3 class="text-2xl font-bold mb-2 text-slate-300">Strength & Power</h3>
                             <p class="text-slate-400">Build lean muscle, increase your strength, and sculpt your body with our targeted weight training programs.</p>
                         </div>
                     </div>
-                    <div class="bg-gray-800 rounded-xl overflow-hidden card-hover-effect">
+                    <div class="bg-gray-800 rounded-xl overflow-hidden card-hover-effect cursor-pointer" data-page-btn="flex-exercises">
                         <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1820&auto=format&fit=crop" alt="Yoga and flexibility" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <h3 class="text-2xl font-bold mb-2 text-slate-300">Flex & Flow</h3>
                             <p class="text-slate-400">Improve your flexibility, balance, and mindfulness with guided yoga and stretching sessions.</p>
                         </div>
                     </div>
-                    <div class="bg-gray-800 rounded-xl overflow-hidden card-hover-effect">
-                        <img src="https://images.unsplash.com/photo-1517836357463-d2dfeac3438?q=80&w=1770&auto=format&fit=crop" alt="HIIT" class="w-full h-48 object-cover">
+                    <div class="bg-gray-800 rounded-xl overflow-hidden card-hover-effect cursor-pointer" data-page-btn="hiit-exercises">
+                        <img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?q=80&w=1887&auto=format&fit=crop" alt="HIIT" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <h3 class="text-2xl font-bold mb-2 text-slate-300">HIIT Intensity</h3>
                             <p class="text-slate-400">High-Intensity Interval Training to maximize fat loss and improve athletic performance in short, intense bursts.</p>
                         </div>
                     </div>
-                    <div class="bg-gray-800 rounded-xl overflow-hidden card-hover-effect">
+                    <div class="bg-gray-800 rounded-xl overflow-hidden card-hover-effect cursor-pointer" data-page-btn="bodyweight-exercises">
                         <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1770&auto=format&fit=crop" alt="Bodyweight exercises" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <h3 class="text-2xl font-bold mb-2 text-slate-300">Bodyweight Mastery</h3>
                             <p class="text-slate-400">Use your own body as the ultimate workout tool. No equipment needed, perfect for home workouts.</p>
                         </div>
                     </div>
-                    <div class="bg-gray-800 rounded-xl overflow-hidden card-hover-effect">
+                    <div class="bg-gray-800 rounded-xl overflow-hidden card-hover-effect cursor-pointer" data-page-btn="core-exercises">
                         <img src="https://images.unsplash.com/photo-1552196563-55cd4e45efb3?q=80&w=1926&auto=format&fit=crop" alt="Core workout" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <h3 class="text-2xl font-bold mb-2 text-slate-300">Core Crusher</h3>
@@ -310,48 +339,288 @@
             </section>
         </div>
 
+        <!-- Exercise Pages -->
+        <div id="page-cardio-exercises" class="page-content hidden">
+            <section>
+                <h2 class="text-3xl font-bold text-center mb-12">Cardio Blast Exercises</h2>
+                <div class="space-y-8">
+                    <div class="bg-gray-800 rounded-xl overflow-hidden flex flex-col md:flex-row items-center card-hover-effect">
+                        <img src="https://imgs.search.brave.com/yPHZsEHVxjKWOW2A9wGDUH0QdzArzlV9_4LTywxSbNg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzE1LzQ1LzQ1Lzkz/LzM2MF9GXzE1NDU0/NTkzNjRfZ1I3ek05/c1ByY2ZLbWtmWldB/UHhKQko4dkxkWnhl/RTYuanBn" alt="Burpees" class="w-full md:w-48 h-48 md:h-full object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Burpees</h3>
+                            <p class="text-slate-400">The ultimate full-body exercise. Start standing, drop to a squat, kick your feet back to a plank, do a push-up, return to squat, and jump up explosively.</p>
+                        </div>
+                    </div>
+                     <div class="bg-gray-800 rounded-xl overflow-hidden flex flex-col md:flex-row items-center card-hover-effect">
+                        <img src="https://imgs.search.brave.com/M23bhokGRSHR2Sbl1Go1jQYk1DKcu5hlDqqKA-osggo/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvOTA2/NTExNzkyL3Bob3Rv/L2p1bXAtcm9wZS1l/eGVyY2lzZS5qcGc_/cz02MTJ4NjEyJnc9/MCZrPTIwJmM9eUdX/ai1VNTlBb01tbUtl/TW5kd2pURVBQelFz/LV96aTRNb3ZQZXpK/d3V3cz0" alt="Rope Skipping" class="w-full md:w-48 h-48 md:h-full object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Rope Skipping</h3>
+                            <p class="text-slate-400">Excellent for footwork, coordination, and high-intensity cardio. Keep your core tight and jump just high enough to clear the rope.</p>
+                        </div>
+                    </div>
+                     <div class="bg-gray-800 rounded-xl overflow-hidden flex flex-col md:flex-row items-center card-hover-effect">
+                        <img src="https://imgs.search.brave.com/NoNNjdNI5k7DDg7_o2jGFc28P4GIuIeqNf1Uzo_plZ4/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAxLzc1LzkzLzk1/LzM2MF9GXzE3NTkz/OTU4Nl9iQUd5UlA5/VWdjdUQxN3YwSUpQ/ZVZQNFNxME82cnFx/Si5qcGc" alt="Running on Treadmill" class="w-full md:w-48 h-48 md:h-full object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Running (Treadmill)</h3>
+                            <p class="text-slate-400">A classic cardiovascular exercise. Adjust speed and incline to match your fitness level. Focus on maintaining a consistent pace and good form.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 rounded-xl overflow-hidden flex flex-col md:flex-row items-center card-hover-effect">
+                        <img src="https://www.americanfitness.net/cdn/shop/collections/SK2000.jpg?v=1741075754&width=1500" alt="Stair Climbing" class="w-full md:w-48 h-48 md:h-full object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Stair Climbing</h3>
+                            <p class="text-slate-400">A high-intensity, low-impact workout that targets your glutes, quads, and hamstrings while elevating your heart rate.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-12">
+                    <button data-page-btn="workouts" class="text-slate-300 hover:text-white underline"> &larr; Back to All Workout Categories</button>
+                </div>
+            </section>
+        </div>
+
+        <div id="page-strength-exercises" class="page-content hidden">
+            <section>
+                <h2 class="text-3xl font-bold text-center mb-12">Strength & Power Exercises</h2>
+                <div class="space-y-8">
+                    <div class="bg-gray-800 rounded-xl overflow-hidden flex flex-col md:flex-row items-center card-hover-effect">
+                        <img src="https://imgs.search.brave.com/IuLdJ7EGv4RUqG0YVqlKFVRhOhIPWXO0can-DR0__qw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvNDkx/MTg4NDc0L3Bob3Rv/L2hpc3BhbmljLW1h/bi1zdHJlbmd0aC10/cmFpbmluZy5qcGc_/cz02MTJ4NjEyJnc9/MCZrPTIwJmM9aFBt/RGhIcGprQUJQb3Jn/N0dxNHBLVENLZnBF/VTA2anhORnNOOWU1/SUpiVT0" alt="Squats" class="w-full md:w-48 h-48 md:h-full object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Barbell Squats</h3>
+                            <p class="text-slate-400">Develops lower body strength. Keep your chest up, back straight, and descend until your thighs are parallel to the floor.</p>
+                        </div>
+                    </div>
+                     <div class="bg-gray-800 rounded-xl overflow-hidden flex flex-col md:flex-row items-center card-hover-effect">
+                        <img src="https://imgs.search.brave.com/pLp649oXQLmVhRa0UvPYOlkTbJuMAQTIOICmhzkS3n4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvOTY0/MDEyOTg2L3Bob3Rv/L21hbi1kb2luZy1w/dWxsLXVwcy1pbi10/aGUtbG9jYWwtcGFy/ay5qcGc_cz02MTJ4/NjEyJnc9MCZrPTIw/JmM9WG84LVlzMFpL/c0ZGdzdWb0ZtVjRo/aDlZbHJrV2hmUUsx/RWs0eDNKMVRPZz0" alt="Pull-ups" class="w-full md:w-48 h-48 md:h-full object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Pull-ups</h3>
+                            <p class="text-slate-400">The ultimate test of back and bicep strength. Start from a dead hang and pull your chin over the bar without swinging.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 rounded-xl overflow-hidden flex flex-col md:flex-row items-center card-hover-effect">
+                        <img src="https://imgs.search.brave.com/gddaKhQln83f6Uhw8uTl1e_C_UM58u-s7tT7tU314v0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAwLzYzLzQzLzI5/LzM2MF9GXzYzNDMy/OTk5X00xSnJpeXZZ/Wlg2Q1R4U2xUOUtz/cUdLTFQ1TmlSZXFl/LmpwZw" alt="Bench Press" class="w-full md:w-48 h-48 md:h-full object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Bench Press</h3>
+                            <p class="text-slate-400">A foundational upper body exercise targeting the chest, shoulders, and triceps. Keep your feet planted and back flat on the bench.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 rounded-xl overflow-hidden flex flex-col md:flex-row items-center card-hover-effect">
+                        <img src="https://imgs.search.brave.com/jLpbi1efROBAYfNRxYNFjxqVxHQUOHQ0jtpAaITWS20/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTA4/OTEyODE4NC9waG90/by93b21hbi1nZXR0/aW5nLXJlYWR5LWZv/ci1kZWFkbGlmdC5q/cGc_cz02MTJ4NjEy/Jnc9MCZrPTIwJmM9/Wk8td1FCS2tNZ0FF/X2tlSFc4WGF6S1Zw/SnZrdUVhcTJ1QXBJ/Ny0zc3pjQT0" alt="Deadlifts" class="w-full md:w-48 h-48 md:h-full object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Deadlifts</h3>
+                            <p class="text-slate-400">A full-body strength builder. Maintain a neutral spine and lift the weight by driving through your legs and extending your hips.</p>
+                        </div>
+                    </div>
+                </div>
+                 <div class="text-center mt-12">
+                    <button data-page-btn="workouts" class="text-slate-300 hover:text-white underline"> &larr; Back to All Workout Categories</button>
+                </div>
+            </section>
+        </div>
+ 
+        <div id="page-flex-exercises" class="page-content hidden">
+            <section>
+                <h2 class="text-3xl font-bold text-center mb-12">Flex & Flow Exercises</h2>
+                <div class="space-y-8">
+                    <div class="bg-gray-800 rounded-xl overflow-hidden flex flex-col md:flex-row items-center card-hover-effect">
+                        <img src="https://imgs.search.brave.com/kiIKQq3OP9xbkySrXBSdX5mujyejUNZ5i5jl1IRkCF8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNjky/OTA4NjMwL3Bob3Rv/L3lvZ2Etd29tYW4t/aW4tZG93bndhcmQt/ZmFjaW5nLWRvZy1w/b3NlLmpwZz9zPTYx/Mng2MTImdz0wJms9/MjAmYz1TZm01ajl5/WEs3MXFGc1ZjcF9I/SFlEakwwX0V4clVL/dm91ZVcxc2szOVg4/PQ" alt="Downward-Facing Dog" class="w-full md:w-48 h-48 md:h-full object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Downward-Facing Dog</h3>
+                            <p class="text-slate-400">A foundational yoga pose. Form a triangle with your body, press your heels toward the floor, and relax your head and neck.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 rounded-xl overflow-hidden flex flex-col md:flex-row items-center card-hover-effect">
+                        <img src="https://imgs.search.brave.com/SlgTazVjfLIy7DtLZsfXZgpxeM8uvPMGZDAoGP-59GY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9saWZv/cm1lLmNvbS9jZG4v/c2hvcC9hcnRpY2xl/cy9CbG9nLUhlYWRl/ci1JbWFnZV9mMDZk/N2E5OC0wZmUwLTQ1/ZjgtODdmMi1mNWQ3/NWNlYjU4OWUud2Vi/cD92PTE3NTA0MzA0/NDY" alt="Pigeon Pose" class="w-full md:w-48 h-48 md:h-full object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Pigeon Pose</h3>
+                            <p class="text-slate-400">An excellent hip opener. Bring one knee forward toward your wrist and extend the other leg back, keeping your hips square.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 rounded-xl overflow-hidden flex flex-col md:flex-row items-center card-hover-effect">
+                        <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=1770&auto=format&fit=crop" alt="Pilates" class="w-full md:w-48 h-48 md:h-full object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Pilates Hundred</h3>
+                            <p class="text-slate-400">A classic Pilates exercise for core strength and stabilization. Lie on your back, lift your head and legs, and pump your arms vigorously.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 rounded-xl overflow-hidden flex flex-col md:flex-row items-center card-hover-effect">
+                        <img src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?q=80&w=1770&auto=format&fit=crop" alt="Cat-Cow Stretch" class="w-full md:w-48 h-48 md:h-full object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Cat-Cow Stretch</h3>
+                            <p class="text-slate-400">Improves spinal flexibility and relieves tension. On all fours, alternate between arching your back (Cat) and scooping your spine (Cow).</p>
+                        </div>
+                    </div>
+                </div>
+                 <div class="text-center mt-12">
+                    <button data-page-btn="workouts" class="text-slate-300 hover:text-white underline"> &larr; Back to All Workout Categories</button>
+                </div>
+            </section>
+        </div>
+
+        <div id="page-hiit-exercises" class="page-content hidden">
+             <section>
+                <h2 class="text-3xl font-bold text-center mb-12">HIIT Intensity Exercises</h2>
+                <div class="space-y-8">
+                    <div class="bg-gray-800 rounded-xl overflow-hidden flex flex-col md:flex-row items-center card-hover-effect">
+                        <img src="https://imgs.search.brave.com/0FN28wQ_CwbinLVu0-MvPApTwrWkJW_LVNFVNfhBrjs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTI4/NTMxMzYxNS9waG90/by9tYW4tZG9pbmct/a2V0dGxlYmVsbC1z/d2luZ3Mtd2hpbGUt/d29ya2luZy1vdXQt/YXQtb3V0ZG9vci1n/eW0uanBnP3M9NjEy/eDYxMiZ3PTAmaz0y/MCZjPVUxWXVNZFND/QkVFRERGRk43ZGZl/cDZiTkcwRm1WeGRS/dnU0Nnpyby1Kb0U9" alt="Kettlebell Swings" class="w-full md:w-48 h-48 md:h-full object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Kettlebell Swings</h3>
+                            <p class="text-slate-400">A powerful, explosive exercise. Hinge at your hips, keep your back straight, and use your glutes and hamstrings to drive the kettlebell up to chest level.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 rounded-xl overflow-hidden flex flex-col md:flex-row items-center card-hover-effect">
+                        <img src="https://imgs.search.brave.com/LxyzZFxsB5S5oZWC2bEYQm1gYMPt6ahg_2D5vD3g0xY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9oaXBz/LmhlYXJzdGFwcHMu/Y29tL2htZy1wcm9k/L2ltYWdlcy9mb3Vy/LXBlb3BsZS1kb2lu/Zy1ib3gtanVtcHMt/aW4tY3Jvc3MtdHJh/aW5pbmctY2xhc3Mt/cm95YWx0eS1mcmVl/LWltYWdlLTE2NTEw/Njc0MTMuanBnP2Ny/b3A9MXh3OjAuODQy/OTZ4aDswLDAuMDkz/NXhoJnJlc2l6ZT0x/MjAwOio" alt="Box Jumps" class="w-full md:w-48 h-48 md:h-full object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Box Jumps</h3>
+                            <p class="text-slate-400">Builds explosive power. Stand in front of a sturdy box, swing your arms, and jump explosively onto the center of the box, landing softly.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 rounded-xl overflow-hidden flex flex-col md:flex-row items-center card-hover-effect">
+                        <img src="https://imgs.search.brave.com/QN4HBKo2k2Hs6t3yNJObG7wpNVmfTy7pjyPNj5FOVsw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi9jcm9z/c2ZpdC1iYXR0bGUt/cm9wZXMtZXhlcmNp/c2UtYXRsZXRlLXRy/YWluaW5nLXdvcmtv/dXQtZ3ltLWNyb3Nz/Zml0LWJhdHRsZS1y/b3Blcy1leGVyY2lz/ZS1hdGxldGUtdHJh/aW5pbmctMTQyNTQ0/MDQyLmpwZw" alt="Battle Ropes" class="w-full md:w-48 h-48 md:h-full object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Battle Ropes</h3>
+                            <p class="text-slate-400">An intense upper body and core workout. Create waves, slams, or spirals with the ropes for a high-intensity cardio and strength challenge.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 rounded-xl overflow-hidden flex flex-col md:flex-row items-center card-hover-effect">
+                        <img src="https://imgs.search.brave.com/H1KVZABLKoj66oBQTt9QiPGNCU7-wD9CFtsE8B-qNp4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jb250/ZW50cy5tZWRpYWRl/Y2F0aGxvbi5jb20v/cDIxODMyNzMvayRl/MzI5NTQ3MzI5MzAz/MzY2NTFjMzE0MTNi/ODQ2NmFkZi8xOTIw/eDAvMjAwMHB0MTUx/OC80MDAweGNyMjI1/MC9Nb3VudGFpbi1j/bGltYmVycy0tdHJh/dmFpbGxlei1sZS1j/YXJkaW8tZXQtbGVz/LWFiZG9taW5hdXgu/anBnP2Zvcm1hdD1h/dXRv" alt="Mountain Climbers" class="w-full md:w-48 h-48 md:h-full object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Mountain Climbers</h3>
+                            <p class="text-slate-400">A dynamic, full-body exercise. From a plank position, alternate driving your knees towards your chest as quickly as possible.</p>
+                        </div>
+                    </div>
+                </div>
+                 <div class="text-center mt-12">
+                    <button data-page-btn="workouts" class="text-slate-300 hover:text-white underline"> &larr; Back to All Workout Categories</button>
+                </div>
+            </section>
+        </div>
+
+        <div id="page-bodyweight-exercises" class="page-content hidden">
+             <section>
+                <h2 class="text-3xl font-bold text-center mb-12">Bodyweight Mastery Exercises</h2>
+                <div class="space-y-8">
+                    <div class="bg-gray-800 rounded-xl overflow-hidden flex flex-col md:flex-row items-center card-hover-effect">
+                        <img src="https://images.unsplash.com/photo-1598971457999-ca4ef48a9a71?q=80&w=1770&auto=format&fit=crop" alt="Push-ups" class="w-full md:w-48 h-48 md:h-full object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Push-ups</h3>
+                            <p class="text-slate-400">A classic exercise for chest, shoulders, and triceps. Keep your body in a straight line from head to heels and lower your chest to the floor.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 rounded-xl overflow-hidden flex flex-col md:flex-row items-center card-hover-effect">
+                        <img src="https://imgs.search.brave.com/XlsZo_1hgMGM7zwQArRZAKzdoJtITxhCQWeAuNYPb-I/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzA4LzQ3LzgxLzQx/LzM2MF9GXzg0Nzgx/NDE3NV9HM1dXR3hU/eTg2WnY1Zkpockd2/UGxIZHJ1SnoyUDZL/US5qcGc" alt="Lunges" class="w-full md:w-48 h-48 md:h-full object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Lunges</h3>
+                            <p class="text-slate-400">Targets quads, glutes, and hamstrings. Step forward with one leg and lower your hips until both knees are bent at a 90-degree angle.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 rounded-xl overflow-hidden flex flex-col md:flex-row items-center card-hover-effect">
+                        <img src="https://imgs.search.brave.com/9fs8bVFwvjq_CF5lLyyHGpRP-GxIvIdaOZvKI1aXksM/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/Z3J4c3RhdGljLmNv/bS80ZjNyZ3F3emR6/bmovMzZNTXJCMlNL/QXVlRVJxdGhnRHVj/NS83ZGFmNjZmZWIx/YjNiZjg5MzhlNDJl/MDBjNmYzN2QyNS9n/bHV0ZV9icmlkZ2Vf/ZXhlcmNpc2VfMTQ2/NjQ5MjkwNS5qcGc_/dz0zODQwJnE9OTkm/Zm09d2VicA" alt="Glute Bridges" class="w-full md:w-48 h-48 md:h-full object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Glute Bridges</h3>
+                            <p class="text-slate-400">Activates and strengthens your glutes and hamstrings. Lie on your back, bend your knees, and lift your hips toward the ceiling.</p>
+                        </div>
+                    </div>
+                     <div class="bg-gray-800 rounded-xl overflow-hidden flex flex-col md:flex-row items-center card-hover-effect">
+                        <img src="https://imgs.search.brave.com/Psi5m0xPISMm_oHH6zgBtY39nOHGNHmnYSx-x7w1ou8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/ZGlyLmNhdC9ibG9n/L3dwLWNvbnRlbnQv/dXBsb2Fkcy8yMDE5/LzA1L3ZpZGVvLXR1/dG9yaWFsLWFpci1z/cXVhdC5qcGc" alt="Air Squats" class="w-full md:w-48 h-48 md:h-full object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Air Squats</h3>
+                            <p class="text-slate-400">The foundational bodyweight squat. Focus on proper form: chest up, weight in your heels, and sinking your hips back and down.</p>
+                        </div>
+                    </div>
+                </div>
+                 <div class="text-center mt-12">
+                    <button data-page-btn="workouts" class="text-slate-300 hover:text-white underline"> &larr; Back to All Workout Categories</button>
+                </div>
+            </section>
+        </div>
+
+        <div id="page-core-exercises" class="page-content hidden">
+             <section>
+                <h2 class="text-3xl font-bold text-center mb-12">Core Crusher Exercises</h2>
+                <div class="space-y-8">
+                     <div class="bg-gray-800 rounded-xl overflow-hidden flex flex-col md:flex-row items-center card-hover-effect">
+                        <img src="https://imgs.search.brave.com/LhPK9ViWzFBNqdRZ4tu2dD96EjYGjAPrjFdHqjRXBUo/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvNTkw/NTc1MTg5L3Bob3Rv/L2F0aGxldGljLW1h/bi1kb2luZy10aGUt/cGxhbmstZm9yLWFi/cy1hbmQtY29yZS5q/cGc_cz02MTJ4NjEy/Jnc9MCZrPTIwJmM9/YmVSeFE3WHYwZXB6/LXRNTk1vUUhSTWRa/QTlmZGNGREdLdFF6/eWNVRkxEZz0" alt="Plank" class="w-full md:w-48 h-48 md:h-full object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Plank</h3>
+                            <p class="text-slate-400">Builds incredible core stability. Hold a push-up position, keeping your body in a perfectly straight line. Engage your abs and glutes.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 rounded-xl overflow-hidden flex flex-col md:flex-row items-center card-hover-effect">
+                        <img src="https://imgs.search.brave.com/ofeUPtMgNIFkqDha1pFTkY4_bFGtmtFLkg-w-SYqv7s/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMuY3RmYXNzZXRz/Lm5ldC8zczVpbzZt/bnhmcXovNDVJZkU0/MUpnMWdJRG1hMFgw/S2FtUy9mMjY1Yjlm/ZWY5MGRkYzYyMjY0/NzJkYjlkODM1ZDhi/YS9NYXN0ZXJDbGFz/c1NFT19IYW5naW5n/X0xlZ19SYWlzZXNf/VFdPX0hFUk8uanBn/P3c9MTkyMA" alt="Leg Raises" class="w-full md:w-48 h-48 md:h-full object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Leg Raises</h3>
+                            <p class="text-slate-400">Targets the lower abdominals. Lie on your back, keep your legs straight, and raise them towards the ceiling until your body is in an L-shape.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 rounded-xl overflow-hidden flex flex-col md:flex-row items-center card-hover-effect">
+                        <img src="https://imgs.search.brave.com/H_7T-5rmxzOn74ltxFT6kuFLq3tKJWgzMMFi-SFuBwg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/bW9zLmNtcy5mdXR1/cmVjZG4ubmV0LzY1/R1NQb21HUEJpOTZU/SlNiZWhBWGUuanBn" alt="Russian Twists" class="w-full md:w-48 h-48 md:h-full object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Russian Twists</h3>
+                            <p class="text-slate-400">Targets the obliques. Sit on the floor, lean back slightly, lift your feet, and twist your torso from side to side.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 rounded-xl overflow-hidden flex flex-col md:flex-row items-center card-hover-effect">
+                        <img src="https://imgs.search.brave.com/wvL70A8Xd3ne_Db04EJBdn6IakrcOxoQBAoE8MY2eV4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9iYXJi/ZW5kLmNvbS93cC1j/b250ZW50L3VwbG9h/ZHMvMjAyMy8wNy9i/aWN5Y2xlLWNydW5j/aC13b3Jrb3V0LWJh/cmJlbmQuY29tXy5q/cGc" alt="Bicycle Crunches" class="w-full md:w-48 h-48 md:h-full object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2 text-slate-300">Bicycle Crunches</h3>
+                            <p class="text-slate-400">A great all-around ab exercise. Lie on your back and bring opposite knee to opposite elbow in a pedaling motion.</p>
+                        </div>
+                    </div>
+                </div>
+                 <div class="text-center mt-12">
+                    <button data-page-btn="workouts" class="text-slate-300 hover:text-white underline"> &larr; Back to All Workout Categories</button>
+                </div>
+            </section>
+        </div>
+
     </main>
 
     <!-- Authentication Page -->
-    <div id="page-auth" class="container mx-auto px-6 py-12">
-        <!-- Login Form -->
-        <div id="login-container" class="auth-form-container">
-            <h2 class="text-3xl font-bold text-center mb-6 text-white">Login</h2>
-            <form id="login-form">
-                <div class="mb-4">
-                    <label for="login-email" class="block mb-2 font-medium text-slate-300">Email</label>
-                    <input type="email" id="login-email" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:ring-slate-500 focus:border-slate-500" required>
-                </div>
-                <div class="mb-6">
-                    <label for="login-password" class="block mb-2 font-medium text-slate-300">Password</label>
-                    <input type="password" id="login-password" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:ring-slate-500 focus:border-slate-500" required>
-                </div>
-                <button type="submit" class="w-full bg-slate-200 text-slate-900 font-bold py-3 rounded-lg hover:bg-slate-300 transition-colors">Login</button>
-            </form>
-            <p id="login-error" class="text-red-400 text-center mt-4"></p>
-            <p class="text-center mt-4 text-slate-400">
-                Don't have an account? <a href="#" id="show-signup" class="font-medium text-slate-300 hover:underline">Sign Up</a>
-            </p>
-        </div>
+    <div id="page-auth" class="min-h-screen flex flex-col items-center justify-center p-4 bg-cover bg-center bg-no-repeat" style="background-image: linear-gradient(rgba(17, 24, 39, 0.8), rgba(17, 24, 39, 0.8)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop');">
+        <div class="w-full max-w-md text-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-2"><a href="#" data-page="home" class="nav-link"><span class="gradient-text">Fitness</span>Fusion</a></h1>
+            <p class="text-slate-400 mb-8" id="auth-subtitle">Login to unleash your potential.</p>
 
-        <!-- Signup Form -->
-        <div id="signup-container" class="auth-form-container hidden">
-            <h2 class="text-3xl font-bold text-center mb-6 text-white">Sign Up</h2>
-            <form id="signup-form">
-                <div class="mb-4">
-                    <label for="signup-email" class="block mb-2 font-medium text-slate-300">Email</label>
-                    <input type="email" id="signup-email" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:ring-slate-500 focus:border-slate-500" required>
-                </div>
-                <div class="mb-6">
-                    <label for="signup-password" class="block mb-2 font-medium text-slate-300">Password</label>
-                    <input type="password" id="signup-password" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:ring-slate-500 focus:border-slate-500" required>
-                </div>
-                <button type="submit" class="w-full bg-slate-200 text-slate-900 font-bold py-3 rounded-lg hover:bg-slate-300 transition-colors">Create Account</button>
-            </form>
-            <p id="signup-error" class="text-red-400 text-center mt-4"></p>
-            <p class="text-center mt-4 text-slate-400">
-                Already have an account? <a href="#" id="show-login" class="font-medium text-slate-300 hover:underline">Login</a>
-            </p>
+            <!-- Login Form -->
+            <div id="login-container" class="bg-gray-900/60 backdrop-blur-sm p-8 rounded-2xl shadow-2xl border border-gray-700 text-left">
+                <h2 class="text-2xl font-bold text-center mb-6 text-white">Login</h2>
+                <form id="login-form">
+                    <div class="mb-4">
+                        <label for="login-email" class="block mb-2 font-medium text-slate-300">Email</label>
+                        <input type="email" id="login-email" class="w-full bg-gray-700/50 border border-gray-600 rounded-lg p-3 text-white focus:ring-slate-500 focus:border-slate-500" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="login-password" class="block mb-2 font-medium text-slate-300">Password</label>
+                        <input type="password" id="login-password" class="w-full bg-gray-700/50 border border-gray-600 rounded-lg p-3 text-white focus:ring-slate-500 focus:border-slate-500" required>
+                    </div>
+                    <button type="submit" class="w-full bg-slate-200 text-slate-900 font-bold py-3 rounded-lg hover:bg-slate-300 transition-colors btn-glow">Login</button>
+                </form>
+                <p id="login-error" class="text-red-400 text-center mt-4"></p>
+                <p class="text-center mt-4 text-slate-400">
+                    Don't have an account? <a href="#" id="show-signup" class="font-medium text-slate-300 hover:underline">Sign Up</a>
+                </p>
+            </div>
+
+            <!-- Signup Form -->
+            <div id="signup-container" class="bg-gray-900/60 backdrop-blur-sm p-8 rounded-2xl shadow-2xl border border-gray-700 text-left hidden">
+                <h2 class="text-2xl font-bold text-center mb-6 text-white">Create Account</h2>
+                <form id="signup-form">
+                    <div class="mb-4">
+                        <label for="signup-email" class="block mb-2 font-medium text-slate-300">Email</label>
+                        <input type="email" id="signup-email" class="w-full bg-gray-700/50 border border-gray-600 rounded-lg p-3 text-white focus:ring-slate-500 focus:border-slate-500" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="signup-password" class="block mb-2 font-medium text-slate-300">Password</label>
+                        <input type="password" id="signup-password" class="w-full bg-gray-700/50 border border-gray-600 rounded-lg p-3 text-white focus:ring-slate-500 focus:border-slate-500" required>
+                    </div>
+                    <button type="submit" class="w-full bg-slate-200 text-slate-900 font-bold py-3 rounded-lg hover:bg-slate-300 transition-colors btn-glow">Create Account</button>
+                </form>
+                <p id="signup-error" class="text-red-400 text-center mt-4"></p>
+                <p class="text-center mt-4 text-slate-400">
+                    Already have an account? <a href="#" id="show-login" class="font-medium text-slate-300 hover:underline">Login</a>
+                </p>
+            </div>
         </div>
     </div>
 
@@ -628,15 +897,18 @@ const firebaseConfig = {
         mobileAuthButton.addEventListener('click', () => auth.currentUser ? handleLogout() : showPage('auth'));
         
         // --- Auth Form Toggling ---
+        const authSubtitle = document.getElementById('auth-subtitle');
         document.getElementById('show-signup').addEventListener('click', (e) => {
             e.preventDefault();
             loginContainer.classList.add('hidden');
             signupContainer.classList.remove('hidden');
+            authSubtitle.textContent = "Your transformation starts here.";
         });
         document.getElementById('show-login').addEventListener('click', (e) => {
             e.preventDefault();
             signupContainer.classList.add('hidden');
             loginContainer.classList.remove('hidden');
+            authSubtitle.textContent = "Login to unleash your potential.";
         });
 
 
@@ -674,7 +946,18 @@ const firebaseConfig = {
             });
         });
 
-        document.querySelector('[data-page-btn="workouts"]').addEventListener('click', (e) => {e.preventDefault(); showPage('workouts');});
+        document.body.addEventListener('click', (e) => {
+            let target = e.target;
+            while (target && target !== document.body) {
+                if (target.matches('[data-page-btn]')) {
+                    e.preventDefault();
+                    const pageId = target.dataset.pageBtn;
+                    showPage(pageId);
+                    return;
+                }
+                target = target.parentElement;
+            }
+        });
 
         // Initial setup for non-auth functionality (date pickers, BMI calc, etc.)
          const formatDate = (date) => {
@@ -721,5 +1004,4 @@ const firebaseConfig = {
     </script>
 </body>
 </html>
-
 

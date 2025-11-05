@@ -8,6 +8,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js" integrity="sha512-TelkP3PCMJv+viJSvAmmNfHixIKYSIuaPvRsv/iCRWfrM2rStVOJYmqBqvIJBxMGe8j8rBvj+gKMbREw/K+PSQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -49,6 +52,81 @@
         input[type="date"]::-webkit-calendar-picker-indicator {
             filter: invert(1);
         }
+
+        /* --- Modal Styles --- */
+        .modal {
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .modal.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            background-color: #1f2937; /* slate-800 */
+            margin: auto;
+            padding: 2rem;
+            border: 1px solid #374151; /* gray-700 */
+            width: 90%;
+            max-width: 500px;
+            border-radius: 0.75rem;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        /* --- Toast Notification Styles --- */
+        .toast {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 1rem 2rem;
+            background-color: #22c55e; /* green-500 */
+            color: white;
+            border-radius: 0.5rem;
+            z-index: 200;
+            transition: bottom 0.5s ease-in-out;
+            font-weight: 600;
+        }
+        .toast.show {
+            bottom: 30px;
+        }
+        .toast.error {
+            background-color: #ef4444; /* red-500 */
+        }
+        
+        /* --- NEW: Drag Handle Style --- */
+        .drag-handle {
+            cursor: grab;
+            color: #6b7280; /* gray-500 */
+            font-size: 1.5rem;
+            line-height: 1;
+            padding-right: 0.75rem;
+            transition: color 0.2s;
+        }
+        .drag-handle:hover {
+            color: #9ca3af; /* gray-400 */
+        }
+        /* Style for item being dragged */
+        .sortable-ghost {
+            opacity: 0.4;
+            background: #374151; /* gray-700 */
+        }
     </style>
 </head>
 <body class="text-slate-300">
@@ -57,9 +135,6 @@
     <div id="workouts-background" class="fixed inset-0 z-[-1] bg-cover bg-center hidden transition-opacity duration-500" style="background-image: linear-gradient(rgba(17, 24, 39, 0.9), rgba(17, 24, 39, 0.9)), url('https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=2070&auto=format&fit=crop');"></div>
     <div id="plan-background" class="fixed inset-0 z-[-1] bg-cover bg-center hidden transition-opacity duration-500" style="background-image: linear-gradient(rgba(17, 24, 39, 0.9), rgba(17, 24, 39, 0.9)), url('https://images.unsplash.com/photo-1574680178336-d2930ae7cd3c?q=80&w=2070&auto=format&fit=crop');"></div>
     <div id="tools-background" class="fixed inset-0 z-[-1] bg-cover bg-center hidden transition-opacity duration-500" style="background-image: linear-gradient(rgba(17, 24, 39, 0.9), rgba(17, 24, 39, 0.9)), url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2070&auto=format&fit=crop');"></div>
-
-
-    <!-- Header -->
     <header class="bg-gray-900/80 backdrop-blur-sm sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="text-2xl font-bold">
@@ -77,7 +152,6 @@
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
             </button>
         </nav>
-        <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
             <a href="#" data-page="home" class="nav-link block py-2 hover:text-slate-300 transition-colors">Home</a>
             <a href="#" data-page="workouts" class="nav-link block py-2 hover:text-slate-300 transition-colors">Workouts</a>
@@ -86,18 +160,15 @@
             <a href="#" data-page="profile" class="nav-link block py-2 hover:text-slate-300 transition-colors hidden auth-required">Profile</a>
             <button id="mobile-auth-button" class="block mt-2 w-full text-center bg-slate-200 text-slate-900 font-bold py-2 px-4 rounded-lg hover:bg-slate-300 transition-colors">Join Now</button>
         </div>
-         <!-- User Info Bar -->
         <div id="user-info-bar" class="bg-gray-800 text-center py-1 text-xs text-slate-400 hidden">
             Logged in as: <span id="user-email" class="font-mono text-slate-400"></span>
         </div>
     </header>
 
-    <!-- Main Content -->
     <main id="main-content" class="container mx-auto px-6 py-12 hidden">
 
-        <!-- Page 1: Home -->
         <div id="page-home" class="page-content">
-            <section class="text-center mb-20">
+             <section class="text-center mb-20">
                 <h1 class="text-4xl md:text-6xl font-extrabold mb-4 leading-tight">
                     Forge Your <span class="gradient-text">Strongest Self</span>
                 </h1>
@@ -108,14 +179,12 @@
                     Explore Workouts
                 </a>
             </section>
-            
             <section class="my-20 text-center">
                 <blockquote class="text-2xl md:text-3xl italic text-slate-300 max-w-4xl mx-auto">
                     "The only bad workout is the one that didn't happen."
                 </blockquote>
                 <cite class="block text-slate-400 mt-4">- Anonymous</cite>
             </section>
-
             <section class="my-20">
                 <h2 class="text-3xl font-bold text-center mb-12">Benefits of Regular Exercise</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -137,7 +206,6 @@
                     </div>
                 </div>
             </section>
-
             <section class="my-20">
                 <h2 class="text-3xl font-bold text-center mb-12">Fuel Your Body</h2>
                 <div class="max-w-4xl mx-auto bg-gray-800 rounded-xl overflow-x-auto">
@@ -167,12 +235,11 @@
                             </tr>
                         </tbody>
                     </table>
-                     <div class="p-4 text-sm text-slate-500 text-center border-t border-gray-700">This is a general guide. Consult a nutritionist for a personalized diet plan.</div>
+                       <div class="p-4 text-sm text-slate-500 text-center border-t border-gray-700">This is a general guide. Consult a nutritionist for a personalized diet plan.</div>
                 </div>
             </section>
         </div>
 
-        <!-- Page 2: Workouts -->
         <div id="page-workouts" class="page-content hidden">
             <section id="workouts">
                 <h2 class="text-3xl font-bold text-center mb-12">Choose Your Challenge</h2>
@@ -223,7 +290,6 @@
             </section>
         </div>
 
-        <!-- Page 3: Workout Plan -->
         <div id="page-plan" class="page-content hidden">
             <h2 class="text-3xl font-bold text-center mb-12">Your Workout Plan</h2>
             
@@ -265,7 +331,6 @@
         </div>
 
 
-        <!-- Page 4: Tools -->
         <div id="page-tools" class="page-content hidden">
             <h2 class="text-3xl font-bold text-center mb-12">Fitness Tools</h2>
             <section id="wod" class="mb-20 bg-gray-800/80 backdrop-blur-sm rounded-xl p-8 md:p-12">
@@ -318,10 +383,8 @@
             </section>
         </div>
 
-        <!-- Page 5: Profile / Personal Records -->
         <div id="page-profile" class="page-content hidden">
             <h2 class="text-3xl font-bold text-center mb-12">Personal Records</h2>
-
             <section id="add-pr" class="mb-12 bg-gray-800 rounded-xl p-8 max-w-2xl mx-auto card-hover-effect">
                 <h3 class="text-2xl font-bold mb-6 text-center">Log a New PR</h3>
                 <form id="pr-form" class="space-y-4">
@@ -336,7 +399,6 @@
                     <button type="submit" id="add-pr-btn" class="w-full bg-slate-200 text-slate-900 font-bold py-3 px-8 rounded-lg text-lg hover:bg-slate-300 transition-colors">Add Record</button>
                 </form>
             </section>
-
             <section id="pr-list-section">
                 <h3 class="text-2xl font-bold text-center mb-6">Your Records</h3>
                 <ul id="pr-list" class="space-y-4 max-w-3xl mx-auto">
@@ -345,9 +407,8 @@
             </section>
         </div>
 
-        <!-- Exercise Pages -->
         <div id="page-cardio-exercises" class="page-content hidden">
-            <section>
+             <section>
                 <h2 class="text-3xl font-bold text-center mb-12">Cardio Blast Exercises</h2>
                 <div class="space-y-8">
                     <div class="bg-gray-800 rounded-xl overflow-hidden flex flex-col md:flex-row items-center card-hover-effect">
@@ -384,7 +445,6 @@
                 </div>
             </section>
         </div>
-
         <div id="page-strength-exercises" class="page-content hidden">
             <section>
                 <h2 class="text-3xl font-bold text-center mb-12">Strength & Power Exercises</h2>
@@ -423,7 +483,6 @@
                 </div>
             </section>
         </div>
- 
         <div id="page-flex-exercises" class="page-content hidden">
             <section>
                 <h2 class="text-3xl font-bold text-center mb-12">Flex & Flow Exercises</h2>
@@ -462,7 +521,6 @@
                 </div>
             </section>
         </div>
-
         <div id="page-hiit-exercises" class="page-content hidden">
              <section>
                 <h2 class="text-3xl font-bold text-center mb-12">HIIT Intensity Exercises</h2>
@@ -501,7 +559,6 @@
                 </div>
             </section>
         </div>
-
         <div id="page-bodyweight-exercises" class="page-content hidden">
              <section>
                 <h2 class="text-3xl font-bold text-center mb-12">Bodyweight Mastery Exercises</h2>
@@ -540,7 +597,6 @@
                 </div>
             </section>
         </div>
-
         <div id="page-core-exercises" class="page-content hidden">
              <section>
                 <h2 class="text-3xl font-bold text-center mb-12">Core Crusher Exercises</h2>
@@ -579,16 +635,12 @@
                 </div>
             </section>
         </div>
-
     </main>
 
-    <!-- Authentication Page -->
     <div id="page-auth" class="min-h-screen flex flex-col items-center justify-center p-4 bg-cover bg-center bg-no-repeat" style="background-image: linear-gradient(rgba(17, 24, 39, 0.8), rgba(17, 24, 39, 0.8)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop');">
         <div class="w-full max-w-md text-center">
             <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-2"><a href="#" data-page="home" class="nav-link"><span class="gradient-text">Fitness</span>Fusion</a></h1>
             <p class="text-slate-400 mb-8" id="auth-subtitle">Login to unleash your potential.</p>
-
-            <!-- Login Form -->
             <div id="login-container" class="bg-gray-900/60 backdrop-blur-sm p-8 rounded-2xl shadow-2xl border border-gray-700 text-left">
                 <h2 class="text-2xl font-bold text-center mb-6 text-white">Login</h2>
                 <form id="login-form">
@@ -607,8 +659,6 @@
                     Don't have an account? <a href="#" id="show-signup" class="font-medium text-slate-300 hover:underline">Sign Up</a>
                 </p>
             </div>
-
-            <!-- Signup Form -->
             <div id="signup-container" class="bg-gray-900/60 backdrop-blur-sm p-8 rounded-2xl shadow-2xl border border-gray-700 text-left hidden">
                 <h2 class="text-2xl font-bold text-center mb-6 text-white">Create Account</h2>
                 <form id="signup-form">
@@ -631,7 +681,6 @@
     </div>
 
 
-    <!-- Footer -->
     <footer class="bg-gray-900">
         <div class="container mx-auto px-6 py-8 text-center text-slate-400">
             <p>&copy; 2025 Fitness Fusion. All Rights Reserved.</p>
@@ -639,35 +688,113 @@
         </div>
     </footer>
     
+    <div id="toast-notification" class="toast">
+        This is a toast message!
+    </div>
+
+    <div id="edit-pr-modal" class="modal">
+        <div class="modal-content">
+            <h3 class="text-2xl font-bold mb-6 text-center text-white">Edit Personal Record</h3>
+            <form id="edit-pr-form" class="space-y-4">
+                <input type="hidden" id="edit-pr-id">
+                <div>
+                    <label for="edit-exercise-name" class="block mb-2 font-medium text-slate-300">Exercise Name</label>
+                    <input type="text" id="edit-exercise-name" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:ring-slate-500 focus:border-slate-500" required>
+                </div>
+                <div>
+                    <label for="edit-record-value" class="block mb-2 font-medium text-slate-300">Record</label>
+                    <input type="text" id="edit-record-value" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:ring-slate-500 focus:border-slate-500" required>
+                </div>
+                <div class="flex gap-4 mt-6">
+                    <button type="button" id="cancel-edit-pr" class="w-full bg-gray-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-gray-500 transition-colors">Cancel</button>
+                    <button type="submit" class="w-full bg-slate-200 text-slate-900 font-bold py-3 px-8 rounded-lg hover:bg-slate-300 transition-colors">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="delete-pr-modal" class="modal">
+        <div class="modal-content">
+            <h3 class="text-2xl font-bold mb-4 text-center text-white">Are you sure?</h3>
+            <p class="text-slate-400 text-center mb-8">This action cannot be undone. This will permanently delete your personal record.</p>
+            <div class="flex gap-4">
+                <button type="button" id="cancel-delete-pr" class="w-full bg-gray-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-gray-500 transition-colors">Cancel</button>
+                <button type="button" id="confirm-delete-pr" class="w-full bg-red-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-red-500 transition-colors mt-4">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="edit-plan-modal" class="modal">
+        <div class="modal-content">
+            <h3 class="text-2xl font-bold mb-6 text-center text-white">Edit Plan Exercise</h3>
+            <form id="edit-plan-form" class="space-y-4">
+                <input type="hidden" id="edit-plan-id">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="edit-daily-exercise-name" class="block mb-2 font-medium text-slate-300">Exercise Name</label>
+                        <input type="text" id="edit-daily-exercise-name" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:ring-slate-500 focus:border-slate-500" required>
+                    </div>
+                    <div>
+                        <label for="edit-exercise-date" class="block mb-2 font-medium text-slate-300">Date</label>
+                        <input type="date" id="edit-exercise-date" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:ring-slate-500 focus:border-slate-500" required>
+                    </div>
+                    <div>
+                        <label for="edit-daily-exercise-sets" class="block mb-2 font-medium text-slate-300">Sets</label>
+                        <input type="number" id="edit-daily-exercise-sets" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:ring-slate-500 focus:border-slate-500" required>
+                    </div>
+                    <div>
+                        <label for="edit-daily-exercise-reps" class="block mb-2 font-medium text-slate-300">Reps</label>
+                        <input type="number" id="edit-daily-exercise-reps" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:ring-slate-500 focus:border-slate-500" required>
+                    </div>
+                </div>
+                <div class="flex gap-4 mt-6">
+                    <button type="button" id="cancel-edit-plan" class="w-full bg-gray-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-gray-500 transition-colors">Cancel</button>
+                    <button type="submit" class="w-full bg-slate-200 text-slate-900 font-bold py-3 px-8 rounded-lg hover:bg-slate-300 transition-colors">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="delete-plan-modal" class="modal">
+        <div class="modal-content">
+            <h3 class="text-2xl font-bold mb-4 text-center text-white">Are you sure?</h3>
+            <p class="text-slate-400 text-center mb-8">This action cannot be undone. This will permanently delete this exercise from your plan.</p>
+            <div class="flex gap-4">
+                <button type="button" id="cancel-delete-plan" class="w-full bg-gray-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-gray-500 transition-colors">Cancel</button>
+                <button type="button" id="confirm-delete-plan" class="w-full bg-red-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-red-500 transition-colors mt-4">Delete</button>
+            </div>
+        </div>
+    </div>
+    
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, Timestamp, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { 
+            getFirestore, collection, addDoc, onSnapshot, query, Timestamp, doc, deleteDoc, updateDoc,
+            getDocs, limit, orderBy, where, writeBatch
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         
-        // ------------------------------------------------------------------
-        // IMPORTANT: PASTE YOUR FIREBASE CONFIGURATION OBJECT HERE
-        // You can get this from your Firebase project settings.
-        // ------------------------------------------------------------------
-       // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyCU1sP2cQgdPALgNJOPbOEqsOd_Xj4CTZk",
-  authDomain: "fitnessfusion3713.firebaseapp.com",
-  projectId: "fitnessfusion3713",
-  storageBucket: "fitnessfusion3713.firebasestorage.app",
-  messagingSenderId: "2702663748",
-  appId: "1:2702663748:web:7649a7206891b10456dc11",
-  measurementId: "G-QJY09CY9G2"
-};
+        // --- Firebase Config (Identical) ---
+        const firebaseConfig = {
+          apiKey: "AIzaSyCU1sP2cQgdPALgNJOPbOEqsOd_Xj4CTZk",
+          authDomain: "fitnessfusion3713.firebaseapp.com",
+          projectId: "fitnessfusion3713",
+          storageBucket: "fitnessfusion3713.firebasestorage.app",
+          messagingSenderId: "2702663748",
+          appId: "1:2702663748:web:7649a7206891b10456dc11",
+          measurementId: "G-QJY09CY9G2"
+        };
         // ------------------------------------------------------------------
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const appId = firebaseConfig.appId; // Use appId from your config
+        const appId = firebaseConfig.appId;
 
-        // --- UI Elements ---
+        // --- UI Elements (Identical) ---
         const mainContent = document.getElementById('main-content');
         const authPage = document.getElementById('page-auth');
+        // ... (all other UI elements are identical) ...
         const loginContainer = document.getElementById('login-container');
         const signupContainer = document.getElementById('signup-container');
         const userInfoBar = document.getElementById('user-info-bar');
@@ -676,48 +803,181 @@ const firebaseConfig = {
         const mobileAuthButton = document.getElementById('mobile-auth-button');
         const authRequiredLinks = document.querySelectorAll('.auth-required');
 
-        let dbListeners = []; // To hold our unsubscribe functions
+        // --- Modal & Toast Elements (Identical) ---
+        const toastElement = document.getElementById('toast-notification');
+        const editPrModal = document.getElementById('edit-pr-modal');
+        const editPrForm = document.getElementById('edit-pr-form');
+        const cancelEditPrBtn = document.getElementById('cancel-edit-pr');
+        const deletePrModal = document.getElementById('delete-pr-modal');
+        const cancelDeletePrBtn = document.getElementById('cancel-delete-pr');
+        const confirmDeletePrBtn = document.getElementById('confirm-delete-pr');
+        const editPlanModal = document.getElementById('edit-plan-modal');
+        const editPlanForm = document.getElementById('edit-plan-form');
+        const cancelEditPlanBtn = document.getElementById('cancel-edit-plan');
+        const deletePlanModal = document.getElementById('delete-plan-modal');
+        const cancelDeletePlanBtn = document.getElementById('cancel-delete-plan');
+        const confirmDeletePlanBtn = document.getElementById('confirm-delete-plan');
 
-        // --- Auth State Logic ---
+        let dbListeners = []; 
+        let prCollectionPath = ''; 
+        let dailyPlanCollectionPath = ''; 
+        let docIdToDelete = null; 
+        let docIdToEdit = null; 
+        let docIdToDeletePlan = null; 
+        let docIdToEditPlan = null; 
+
+
+        // --- Toast & Modal Functions (All Identical) ---
+        function showToast(message, isError = false) {
+            toastElement.textContent = message;
+            toastElement.className = 'toast show'; 
+            if (isError) {
+                toastElement.classList.add('error');
+            }
+            setTimeout(() => {
+                toastElement.classList.remove('show');
+            }, 3000);
+        }
+        function openEditModal(id, name, value) {
+            docIdToEdit = id;
+            document.getElementById('edit-pr-id').value = id;
+            document.getElementById('edit-exercise-name').value = name;
+            document.getElementById('edit-record-value').value = value;
+            editPrModal.classList.add('show');
+        }
+        function closeEditModal() {
+            docIdToEdit = null;
+            editPrModal.classList.remove('show');
+        }
+        function openDeleteModal(id) {
+            docIdToDelete = id;
+            deletePrModal.classList.add('show');
+        }
+        function closeDeleteModal() {
+            docIdToDelete = null;
+            deletePrModal.classList.remove('show');
+        }
+        function openEditPlanModal(id, name, date, sets, reps) {
+            docIdToEditPlan = id;
+            document.getElementById('edit-plan-id').value = id;
+            document.getElementById('edit-daily-exercise-name').value = name;
+            document.getElementById('edit-exercise-date').value = date;
+            document.getElementById('edit-daily-exercise-sets').value = sets;
+            document.getElementById('edit-daily-exercise-reps').value = reps;
+            editPlanModal.classList.add('show');
+        }
+        function closeEditPlanModal() {
+            docIdToEditPlan = null;
+            editPlanModal.classList.remove('show');
+        }
+        function openDeletePlanModal(id) {
+            docIdToDeletePlan = id;
+            deletePlanModal.classList.add('show');
+        }
+        function closeDeletePlanModal() {
+            docIdToDeletePlan = null;
+            deletePlanModal.classList.remove('show');
+        }
+
+        // --- Modal Event Listeners (All Identical) ---
+        cancelEditPrBtn.addEventListener('click', closeEditModal);
+        cancelDeletePrBtn.addEventListener('click', closeDeleteModal);
+        editPrForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const newName = document.getElementById('edit-exercise-name').value.trim();
+            const newValue = document.getElementById('edit-record-value').value.trim();
+            if (!newName || !newValue || !docIdToEdit) return;
+            try {
+                const docRef = doc(db, prCollectionPath, docIdToEdit);
+                await updateDoc(docRef, { exerciseName: newName, recordValue: newValue });
+                showToast('PR updated successfully!');
+                closeEditModal();
+            } catch (err) {
+                console.error("Error updating PR: ", err);
+                showToast('Error updating PR.', true);
+            }
+        });
+        confirmDeletePrBtn.addEventListener('click', async () => {
+            if (!docIdToDelete) return;
+            try {
+                await deleteDoc(doc(db, prCollectionPath, docIdToDelete));
+                showToast('PR deleted successfully!');
+                closeDeleteModal();
+            } catch (err) {
+                console.error("Error deleting PR: ", err);
+                showToast('Error deleting PR.', true);
+                closeDeleteModal();
+            }
+        });
+        cancelEditPlanBtn.addEventListener('click', closeEditPlanModal);
+        cancelDeletePlanBtn.addEventListener('click', closeDeletePlanModal);
+        editPlanForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const newName = document.getElementById('edit-daily-exercise-name').value.trim();
+            const newDate = document.getElementById('edit-exercise-date').value;
+            const newSets = document.getElementById('edit-daily-exercise-sets').value;
+            const newReps = document.getElementById('edit-daily-exercise-reps').value;
+            if (!newName || !newDate || !newSets || !newReps || !docIdToEditPlan) return;
+            try {
+                const docRef = doc(db, dailyPlanCollectionPath, docIdToEditPlan);
+                await updateDoc(docRef, {
+                    exerciseName: newName,
+                    exerciseDate: newDate,
+                    sets: newSets,
+                    reps: newReps
+                });
+                showToast('Plan updated successfully!');
+                closeEditPlanModal();
+            } catch (err) {
+                console.error("Error updating plan: ", err);
+                showToast('Error updating plan.', true);
+            }
+        });
+        confirmDeletePlanBtn.addEventListener('click', async () => {
+            if (!docIdToDeletePlan) return;
+            try {
+                await deleteDoc(doc(db, dailyPlanCollectionPath, docIdToDeletePlan));
+                showToast('Exercise removed from plan.');
+                closeDeletePlanModal();
+            } catch (err) {
+                console.error("Error deleting plan item: ", err);
+                showToast('Error removing exercise.', true);
+                closeDeletePlanModal();
+            }
+        });
+
+
+        // --- Auth State Logic (Identical) ---
         onAuthStateChanged(auth, user => {
-            // Clear any existing database listeners
             dbListeners.forEach(unsubscribe => unsubscribe());
             dbListeners = [];
-
             if (user) {
-                // User is signed in
                 mainContent.classList.remove('hidden');
                 authPage.classList.add('hidden');
                 userInfoBar.classList.remove('hidden');
                 userEmailSpan.textContent = user.email;
-                
                 authButton.textContent = 'Log Out';
                 mobileAuthButton.textContent = 'Log Out';
-
                 authRequiredLinks.forEach(link => link.classList.remove('hidden'));
-
-                // Setup database listeners for the logged-in user
+                prCollectionPath = `/artifacts/${appId}/users/${user.uid}/personal_records`;
+                dailyPlanCollectionPath = `/artifacts/${appId}/users/${user.uid}/daily_plan`;
                 setupDbListeners(user.uid);
                 showPage('home');
-
             } else {
-                // User is signed out
                 mainContent.classList.add('hidden');
                 authPage.classList.remove('hidden');
                 userInfoBar.classList.add('hidden');
                 userEmailSpan.textContent = '';
-                
                 authButton.textContent = 'Join Now';
                 mobileAuthButton.textContent = 'Join Now';
-
                 authRequiredLinks.forEach(link => link.classList.add('hidden'));
-                showPage('auth'); // or hide all pages
+                showPage('auth');
             }
         });
 
-        // --- Database Listeners Function ---
+        // --- Database Listeners Function (Updated) ---
         function setupDbListeners(userId) {
-            // WOD Logic (Public)
+            // WOD Logic (Identical)
             const wodLogList = document.getElementById('wod-log-list');
             const wodCollectionPath = `/artifacts/${appId}/public/data/wod_completions`;
             const wodCollectionRef = collection(db, wodCollectionPath);
@@ -735,7 +995,6 @@ const firebaseConfig = {
                 }
             }, console.error);
             dbListeners.push(unsubWod);
-
             document.getElementById('log-wod').onclick = async (e) => {
                 if (!auth.currentUser) return;
                 e.target.disabled = true;
@@ -743,17 +1002,18 @@ const firebaseConfig = {
                 try {
                     await addDoc(wodCollectionRef, { userId, userEmail: auth.currentUser.email, completedAt: Timestamp.now(), workout: "The Spartan 300" });
                     e.target.textContent = 'Completed!';
+                    showToast('WOD logged! Great work!');
                 } catch (err) {
                     console.error("Error adding document: ", err);
                     e.target.textContent = 'Log Completion';
                     e.target.disabled = false;
+                    showToast('Error logging WOD.', true);
                 }
             };
             
-            // PR Logic (Private)
+            // PR Logic (Identical)
             const prForm = document.getElementById('pr-form');
             const prList = document.getElementById('pr-list');
-            const prCollectionPath = `/artifacts/${appId}/users/${userId}/personal_records`;
             const prCollectionRef = collection(db, prCollectionPath);
             const unsubPr = onSnapshot(query(prCollectionRef), (snapshot) => {
                 prList.innerHTML = '';
@@ -773,14 +1033,20 @@ const firebaseConfig = {
                         </div>
                         <div class="flex items-center space-x-4">
                             <span class="text-sm text-slate-500">${date}</span>
-                            <button data-id="${data.id}" class="delete-pr-btn text-rose-500 hover:text-rose-400 text-2xl font-bold">&times;</button>
+                            <button 
+                                data-id="${data.id}" 
+                                data-name="${data.exerciseName}" 
+                                data-value="${data.recordValue}"
+                                class="edit-pr-btn text-blue-400 hover:text-blue-300 text-lg font-medium">Edit</button>
+                            <button 
+                                data-id="${data.id}" 
+                                class="delete-pr-btn text-rose-500 hover:text-rose-400 text-2xl font-bold">&times;</button>
                         </div>
                     `;
                     prList.appendChild(li);
                 });
             }, console.error);
             dbListeners.push(unsubPr);
-
             prForm.onsubmit = async (e) => {
                 e.preventDefault();
                 const exerciseName = document.getElementById('exercise-name').value.trim();
@@ -789,24 +1055,34 @@ const firebaseConfig = {
                 try {
                     await addDoc(prCollectionRef, { exerciseName, recordValue, createdAt: Timestamp.now() });
                     prForm.reset();
-                } catch (err) { console.error("Error adding PR: ", err); }
+                    showToast('PR added successfully!'); 
+                } catch (err) { 
+                    console.error("Error adding PR: ", err); 
+                    showToast('Error adding PR.', true); 
+                }
             };
-
             prList.onclick = async (e) => {
                 if (e.target && e.target.classList.contains('delete-pr-btn')) {
                     const docId = e.target.dataset.id;
                     if (docId) {
-                        try { await deleteDoc(doc(db, prCollectionPath, docId)); } 
-                        catch (err) { console.error("Error deleting PR: ", err); }
+                        openDeleteModal(docId); 
+                    }
+                }
+                if (e.target && e.target.classList.contains('edit-pr-btn')) {
+                    const docId = e.target.dataset.id;
+                    const name = e.target.dataset.name;
+                    const value = e.target.dataset.value;
+                    if (docId) {
+                        openEditModal(docId, name, value); 
                     }
                 }
             };
 
-            // Daily Plan Logic (Private)
+            // --- *** Daily Plan Logic (HEAVILY UPDATED for SortableJS) *** ---
             const dailyExerciseForm = document.getElementById('daily-exercise-form');
             const dailyPlanList = document.getElementById('daily-plan-list');
-            const dailyPlanCollectionPath = `/artifacts/${appId}/users/${userId}/daily_plan`;
             const dailyPlanCollectionRef = collection(db, dailyPlanCollectionPath);
+            
             const unsubPlan = onSnapshot(query(dailyPlanCollectionRef), (snapshot) => {
                 dailyPlanList.innerHTML = '';
                 if (snapshot.empty) {
@@ -828,26 +1104,67 @@ const firebaseConfig = {
                     const dateGroup = document.createElement('div');
                     const formattedDate = new Date(date + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
                     dateGroup.innerHTML = `<h4 class="text-xl font-bold mb-3 text-slate-400">${formattedDate}</h4>`;
+                    
                     const exerciseList = document.createElement('ul');
                     exerciseList.className = 'space-y-3';
-                    groupedByDate[date].forEach(ex => {
+                    
+                    groupedByDate[date].sort((a, b) => a.priority - b.priority);
+
+                    groupedByDate[date].forEach((ex) => {
                         const li = document.createElement('li');
                         li.className = 'daily-exercise-item';
+                        li.dataset.id = ex.id; // *** NEW: Set data-id on the li itself ***
+
+                        // *** NEW: Updated HTML with drag handle, removed up/down buttons ***
                         li.innerHTML = `
-                            <div>
+                            <span class="drag-handle" title="Drag to reorder">&#9776;</span>
+                            <div class="flex-grow">
                                 <p class="font-semibold text-white">${ex.exerciseName}</p>
                                 <p class="text-sm text-slate-400">${ex.sets} sets x ${ex.reps} reps</p>
                             </div>
-                            <button data-id="${ex.id}" class="delete-daily-exercise-btn text-rose-500 hover:text-rose-400 text-2xl font-bold">&times;</button>
+                            <div class="flex items-center space-x-3">
+                                <button data-id="${ex.id}" data-name="${ex.exerciseName}" data-date="${ex.exerciseDate}" data-sets="${ex.sets}" data-reps="${ex.reps}" class="edit-daily-exercise-btn text-blue-400 hover:text-blue-300 text-sm font-medium">Edit</button>
+                                <button data-id="${ex.id}" class="delete-daily-exercise-btn text-rose-500 hover:text-rose-400 text-2xl font-bold">&times;</button>
+                            </div>
                         `;
                         exerciseList.appendChild(li);
                     });
+                    
                     dateGroup.appendChild(exerciseList);
                     dailyPlanList.appendChild(dateGroup);
+
+                    // *** NEW: Initialize SortableJS on this list ***
+                    new Sortable(exerciseList, {
+                        animation: 150,
+                        handle: '.drag-handle', // Specify the drag handle
+                        ghostClass: 'sortable-ghost', // Class for the placeholder
+                        onEnd: async (evt) => {
+                            const items = evt.target.children; // Get all <li> elements in their new order
+                            const batch = writeBatch(db);
+                            
+                            Array.from(items).forEach((item, index) => {
+                                const docId = item.dataset.id;
+                                if (docId) {
+                                    const docRef = doc(db, dailyPlanCollectionPath, docId);
+                                    batch.update(docRef, { priority: index }); // Update priority to the new index
+                                }
+                            });
+                            
+                            try {
+                                await batch.commit();
+                                showToast('Plan order updated!');
+                            } catch (err) {
+                                console.error("Error updating plan order: ", err);
+                                showToast('Error updating order.', true);
+                            }
+                        }
+                    });
+
                 });
             }, console.error);
             dbListeners.push(unsubPlan);
 
+            // Updated form submission (Identical to previous step)
             dailyExerciseForm.onsubmit = async (e) => {
                 e.preventDefault();
                 const exerciseName = document.getElementById('daily-exercise-name').value.trim();
@@ -856,53 +1173,91 @@ const firebaseConfig = {
                 const reps = document.getElementById('daily-exercise-reps').value.trim();
                 if (!exerciseName || !exerciseDate || !sets || !reps) return;
                 try {
-                    await addDoc(dailyPlanCollectionRef, { exerciseName, exerciseDate, sets, reps, createdAt: Timestamp.now() });
+                    const q = query(dailyPlanCollectionRef, where("exerciseDate", "==", exerciseDate), orderBy("priority", "desc"), limit(1));
+                    const querySnapshot = await getDocs(q);
+                    let newPriority = 0;
+                    if (!querySnapshot.empty) {
+                        newPriority = querySnapshot.docs[0].data().priority + 1;
+                    }
+                    await addDoc(dailyPlanCollectionRef, { 
+                        exerciseName, 
+                        exerciseDate, 
+                        sets, 
+                        reps, 
+                        createdAt: Timestamp.now(),
+                        priority: newPriority 
+                    });
                     dailyExerciseForm.reset();
-                } catch (err) { console.error("Error adding daily exercise: ", err); }
+                    showToast('Exercise added to plan!'); 
+                } catch (err) { 
+                    console.error("Error adding daily exercise: ", err); 
+                    showToast('Error adding exercise.', true); 
+                }
             };
 
+            // *** NEW: Simplified click handler (removed move-plan-item-btn logic) ***
             dailyPlanList.onclick = async (e) => {
-                if (e.target && e.target.classList.contains('delete-daily-exercise-btn')) {
-                    const docId = e.target.dataset.id;
+                const target = e.target.closest('button'); 
+                if (!target) return;
+
+                if (target.classList.contains('delete-daily-exercise-btn')) {
+                    const docId = target.dataset.id;
                     if (docId) {
-                        try { await deleteDoc(doc(db, dailyPlanCollectionPath, docId)); } 
-                        catch (err) { console.error("Error deleting daily exercise: ", err); }
+                        openDeletePlanModal(docId); 
+                    }
+                }
+                if (target.classList.contains('edit-daily-exercise-btn')) {
+                    const { id, name, date, sets, reps } = target.dataset;
+                    if (id) {
+                        openEditPlanModal(id, name, date, sets, reps); 
                     }
                 }
             };
         }
 
 
-        // --- Auth Form Handling ---
+        // --- Auth Form Handling (Identical) ---
         const loginForm = document.getElementById('login-form');
         const signupForm = document.getElementById('signup-form');
         const loginError = document.getElementById('login-error');
         const signupError = document.getElementById('signup-error');
-
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
             loginError.textContent = '';
             const email = loginForm['login-email'].value;
             const password = loginForm['login-password'].value;
             signInWithEmailAndPassword(auth, email, password)
-                .catch(err => loginError.textContent = err.message);
+                .catch(err => {
+                    if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+                        loginError.textContent = 'Invalid email or password.';
+                    } else {
+                        loginError.textContent = err.message;
+                    }
+                });
         });
-
         signupForm.addEventListener('submit', (e) => {
             e.preventDefault();
             signupError.textContent = '';
             const email = signupForm['signup-email'].value;
             const password = signupForm['signup-password'].value;
             createUserWithEmailAndPassword(auth, email, password)
-                .catch(err => signupError.textContent = err.message);
+                .catch(err => {
+                    if (err.code === 'auth/email-already-in-use') {
+                        signupError.textContent = 'An account with this email already exists.';
+                    } else if (err.code === 'auth/weak-password') {
+                        signupError.textContent = 'Password must be at least 6 characters long.';
+                    } else {
+                        signupError.textContent = err.message;
+                    }
+                });
         });
 
-        // --- Logout ---
+        // --- Logout (Identical) ---
         const handleLogout = () => signOut(auth);
         authButton.addEventListener('click', () => auth.currentUser ? handleLogout() : showPage('auth'));
         mobileAuthButton.addEventListener('click', () => auth.currentUser ? handleLogout() : showPage('auth'));
         
-        // --- Auth Form Toggling ---
+        // --- Auth Form Toggling (Identical) ---
         const authSubtitle = document.getElementById('auth-subtitle');
         document.getElementById('show-signup').addEventListener('click', (e) => {
             e.preventDefault();
@@ -918,40 +1273,32 @@ const firebaseConfig = {
         });
 
 
-        // --- Page Navigation & UI Logic ---
+        // --- Page Navigation & UI Logic (Identical) ---
         const pages = document.querySelectorAll('.page-content');
         const navLinks = document.querySelectorAll('.nav-link');
-
         function showPage(pageId) {
             const homeBg = document.getElementById('home-background');
             const workoutsBg = document.getElementById('workouts-background');
             const planBg = document.getElementById('plan-background');
             const toolsBg = document.getElementById('tools-background');
             const workoutPages = ['workouts', 'cardio-exercises', 'strength-exercises', 'flex-exercises', 'hiit-exercises', 'bodyweight-exercises', 'core-exercises'];
-
-            // A simplified way to toggle all backgrounds
             const backgrounds = {
                 home: homeBg,
                 workouts: workoutsBg,
                 plan: planBg,
                 tools: toolsBg
             };
-
             Object.values(backgrounds).forEach(bg => bg.classList.add('hidden'));
-
             if (pageId === 'auth') {
                 mainContent.classList.add('hidden');
                 authPage.classList.remove('hidden');
                 return;
             }
-            
             if (auth.currentUser) {
-                // Show the correct background
                 if (pageId === 'home') backgrounds.home.classList.remove('hidden');
                 else if (workoutPages.includes(pageId)) backgrounds.workouts.classList.remove('hidden');
                 else if (pageId === 'plan') backgrounds.plan.classList.remove('hidden');
                 else if (pageId === 'tools') backgrounds.tools.classList.remove('hidden');
-
                 mainContent.classList.remove('hidden');
                 authPage.classList.add('hidden');
                 pages.forEach(page => page.classList.add('hidden'));
@@ -961,11 +1308,9 @@ const firebaseConfig = {
                 });
                 window.scrollTo(0, 0);
             } else {
-                // If not logged in and trying to access a page, show auth page
                 showPage('auth');
             }
         }
-        
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -973,7 +1318,6 @@ const firebaseConfig = {
                 document.getElementById('mobile-menu').classList.toggle('hidden');
             });
         });
-
         document.body.addEventListener('click', (e) => {
             let target = e.target;
             while (target && target !== document.body) {
@@ -987,21 +1331,21 @@ const firebaseConfig = {
             }
         });
 
-        // Initial setup for non-auth functionality (date pickers, BMI calc, etc.)
+        // --- Initial setup (Identical) ---
          const formatDate = (date) => {
             const d = new Date(date);
             const year = d.getFullYear();
             const month = (`0${d.getMonth() + 1}`).slice(-2);
             const day = (`0${d.getDate()}`).slice(-2);
             return `${year}-${month}-${day}`;
-        }
+         }
         document.getElementById('set-date-today').addEventListener('click', () => {
             document.getElementById('exercise-date').value = formatDate(new Date());
         });
         document.getElementById('set-date-tomorrow').addEventListener('click', () => {
-             const tomorrow = new Date();
-             tomorrow.setDate(tomorrow.getDate() + 1);
-             document.getElementById('exercise-date').value = formatDate(tomorrow);
+              const tomorrow = new Date();
+              tomorrow.setDate(tomorrow.getDate() + 1);
+              document.getElementById('exercise-date').value = formatDate(tomorrow);
         });
         document.getElementById('calculate-bmi').addEventListener('click', () => {
             const height = parseFloat(document.getElementById('height').value);
@@ -1032,4 +1376,3 @@ const firebaseConfig = {
     </script>
 </body>
 </html>
-
